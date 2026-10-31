@@ -7,11 +7,34 @@ const yoyoPath =
 const steadyPath =
   "M40 70 C 120 78, 170 150, 250 186 S 380 214, 452 212";
 
-export function YoyoChart() {
+// Main site (inside the dark "Znasz to?" section) and the poster demos.
+const tones = {
+  light: {
+    figure: "rounded-[2rem] bg-ink-raised p-6 sm:p-10",
+    title: "font-semi-expanded text-xl font-bold sm:text-2xl",
+    axis: "#7D7371",
+    label: "#E9E1DC",
+    yoyo: "#9A908E",
+    steady: "#F4BFCF",
+    caption: "text-sand",
+  },
+  poster: {
+    figure: "rounded-[6px] border border-white/10 bg-poster-ink p-6 sm:p-10",
+    title: "font-poster text-2xl sm:text-3xl",
+    axis: "#4A4A55",
+    label: "#A5A5A5",
+    yoyo: "#8A8A93",
+    steady: "#F12A98",
+    caption: "text-poster-grey",
+  },
+};
+
+export function YoyoChart({ tone = "light" }: { tone?: keyof typeof tones }) {
   const { chart } = problem;
+  const t = tones[tone];
   return (
-    <figure className="rounded-[2rem] bg-ink-raised p-6 sm:p-10">
-      <h3 className="font-semi-expanded text-xl font-bold sm:text-2xl">{chart.title}</h3>
+    <figure className={t.figure}>
+      <h3 className={t.title}>{chart.title}</h3>
 
       <svg
         viewBox="0 0 480 270"
@@ -23,17 +46,17 @@ export function YoyoChart() {
         <desc id="yoyo-desc">{chart.description}</desc>
 
         {/* Axes */}
-        <path d="M32 18 V 238 H 466" stroke="#7D7371" strokeWidth="1.5" fill="none" />
-        <text transform="translate(20 128) rotate(-90)" fill="#E9E1DC" fontSize="18" textAnchor="middle">
+        <path d="M32 18 V 238 H 466" stroke={t.axis} strokeWidth="1.5" fill="none" />
+        <text transform="translate(20 128) rotate(-90)" fill={t.label} fontSize="18" textAnchor="middle">
           {chart.axisY}
         </text>
-        <text x="466" y="262" fill="#E9E1DC" fontSize="18" textAnchor="end">
+        <text x="466" y="262" fill={t.label} fontSize="18" textAnchor="end">
           {chart.axisX}
         </text>
 
         <path
           d={yoyoPath}
-          stroke="#9A908E"
+          stroke={t.yoyo}
           strokeWidth="3"
           strokeDasharray="7 7"
           strokeLinecap="round"
@@ -43,30 +66,30 @@ export function YoyoChart() {
           d={steadyPath}
           pathLength={1}
           className="draw-on-view"
-          stroke="#F4BFCF"
+          stroke={t.steady}
           strokeWidth="5"
           strokeLinecap="round"
           fill="none"
         />
-        <circle cx="40" cy="70" r="6" fill="#F4BFCF" />
+        <circle cx="40" cy="70" r="6" fill={t.steady} />
       </svg>
 
       <ul className="mt-6 flex flex-wrap gap-x-8 gap-y-3 text-[0.95rem]" aria-label="Legenda">
         <li className="flex items-center gap-3">
           <svg width="36" height="8" aria-hidden="true">
-            <path d="M2 4h32" stroke="#9A908E" strokeWidth="3" strokeDasharray="6 6" strokeLinecap="round" />
+            <path d="M2 4h32" stroke={t.yoyo} strokeWidth="3" strokeDasharray="6 6" strokeLinecap="round" />
           </svg>
           {chart.yoyoLabel}
         </li>
         <li className="flex items-center gap-3">
           <svg width="36" height="8" aria-hidden="true">
-            <path d="M2 4h32" stroke="#F4BFCF" strokeWidth="5" strokeLinecap="round" />
+            <path d="M2 4h32" stroke={t.steady} strokeWidth="5" strokeLinecap="round" />
           </svg>
           {chart.steadyLabel}
         </li>
       </ul>
 
-      <figcaption className="mt-4 text-sm leading-relaxed text-sand">{chart.caption}</figcaption>
+      <figcaption className={`mt-4 text-sm leading-relaxed ${t.caption}`}>{chart.caption}</figcaption>
     </figure>
   );
 }

@@ -11,7 +11,39 @@ type Status = "idle" | "sending" | "sent" | "failed";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export function ContactForm({ copy, email }: { copy: Copy; email: string }) {
+// Colour treatments: the main site's light card and the dark poster demos.
+const tones = {
+  light: {
+    label: "font-semibold",
+    field: "rounded-2xl border-2 bg-white text-ink placeholder:text-ink-soft focus:border-accent",
+    fieldOk: "border-line",
+    fieldError: "border-accent",
+    error: "text-accent",
+    checkbox: "accent-accent",
+    consent: "text-ink-soft",
+    link: "text-accent",
+    submit: "rounded-full bg-accent text-white hover:bg-accent-deep",
+    status: "rounded-2xl bg-accent-blush text-ink",
+  },
+  poster: {
+    label: "font-semibold text-white",
+    field:
+      "rounded-[4px] border bg-poster-black text-white placeholder:text-poster-grey focus:border-poster-pink focus:ring-2 focus:ring-poster-pink/40",
+    fieldOk: "border-white/25",
+    fieldError: "border-poster-bright",
+    error: "text-poster-bright",
+    checkbox: "accent-poster-pink",
+    consent: "text-poster-grey",
+    link: "text-poster-bright",
+    submit: "rounded-[4px] bg-poster-pink text-poster-black hover:bg-poster-bright",
+    status: "rounded-[4px] border border-poster-pink/40 bg-poster-black text-white",
+  },
+};
+
+type Props = { copy: Copy; email: string; tone?: keyof typeof tones };
+
+export function ContactForm({ copy, email, tone = "light" }: Props) {
+  const t = tones[tone];
   // Bots submit instantly; the API ignores anything sent under ~3 seconds.
   const [loadedAt] = useState(() => Date.now());
   const [errors, setErrors] = useState<Errors>({});
@@ -67,8 +99,8 @@ export function ContactForm({ copy, email }: { copy: Copy; email: string }) {
   }
 
   const fieldClass = (field: Field) =>
-    `mt-2 block w-full rounded-2xl border-2 bg-white px-4 py-3 text-base text-ink placeholder:text-ink-soft focus:border-accent focus:outline-none focus-visible:outline-none ${
-      errors[field] ? "border-accent" : "border-line"
+    `mt-2 block w-full px-4 py-3 text-base focus:outline-none focus-visible:outline-none ${t.field} ${
+      errors[field] ? t.fieldError : t.fieldOk
     }`;
 
   const describedBy = (field: Field) => (errors[field] ? `${field}-error` : undefined);
@@ -76,7 +108,7 @@ export function ContactForm({ copy, email }: { copy: Copy; email: string }) {
   return (
     <form noValidate onSubmit={onSubmit} className="mt-6 space-y-5">
       <div>
-        <label htmlFor="contact-name" className="font-semibold">
+        <label htmlFor="contact-name" className={t.label}>
           {copy.fields.name}
         </label>
         <input
@@ -91,14 +123,14 @@ export function ContactForm({ copy, email }: { copy: Copy; email: string }) {
           className={fieldClass("name")}
         />
         {errors.name && (
-          <p id="name-error" className="mt-2 text-sm font-medium text-accent">
+          <p id="name-error" className={`mt-2 text-sm font-medium ${t.error}`}>
             {errors.name}
           </p>
         )}
       </div>
 
       <div>
-        <label htmlFor="contact-email" className="font-semibold">
+        <label htmlFor="contact-email" className={t.label}>
           {copy.fields.email}
         </label>
         <input
@@ -114,14 +146,14 @@ export function ContactForm({ copy, email }: { copy: Copy; email: string }) {
           className={fieldClass("email")}
         />
         {errors.email && (
-          <p id="email-error" className="mt-2 text-sm font-medium text-accent">
+          <p id="email-error" className={`mt-2 text-sm font-medium ${t.error}`}>
             {errors.email}
           </p>
         )}
       </div>
 
       <div>
-        <label htmlFor="contact-message" className="font-semibold">
+        <label htmlFor="contact-message" className={t.label}>
           {copy.fields.message}
         </label>
         <textarea
@@ -136,7 +168,7 @@ export function ContactForm({ copy, email }: { copy: Copy; email: string }) {
           className={`${fieldClass("message")} resize-y`}
         />
         {errors.message && (
-          <p id="message-error" className="mt-2 text-sm font-medium text-accent">
+          <p id="message-error" className={`mt-2 text-sm font-medium ${t.error}`}>
             {errors.message}
           </p>
         )}
@@ -157,18 +189,18 @@ export function ContactForm({ copy, email }: { copy: Copy; email: string }) {
             required
             aria-invalid={errors.consent ? true : undefined}
             aria-describedby={describedBy("consent")}
-            className="mt-1 h-5 w-5 shrink-0 accent-accent"
+            className={`mt-1 h-5 w-5 shrink-0 ${t.checkbox}`}
           />
-          <label htmlFor="contact-consent" className="text-sm leading-relaxed text-ink-soft">
+          <label htmlFor="contact-consent" className={`text-sm leading-relaxed ${t.consent}`}>
             {copy.consent.before}
-            <Link href="/polityka-prywatnosci" className="font-semibold text-accent underline underline-offset-2">
+            <Link href="/polityka-prywatnosci" className={`font-semibold underline underline-offset-2 ${t.link}`}>
               {copy.consent.linkLabel}
             </Link>
             {copy.consent.after}
           </label>
         </div>
         {errors.consent && (
-          <p id="consent-error" className="mt-2 text-sm font-medium text-accent">
+          <p id="consent-error" className={`mt-2 text-sm font-medium ${t.error}`}>
             {errors.consent}
           </p>
         )}
@@ -177,17 +209,17 @@ export function ContactForm({ copy, email }: { copy: Copy; email: string }) {
       <button
         type="submit"
         disabled={status === "sending"}
-        className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-accent px-6 py-3 font-semibold text-white transition-colors hover:bg-accent-deep disabled:cursor-wait disabled:opacity-80 motion-reduce:transition-none sm:w-auto"
+        className={`inline-flex min-h-12 w-full items-center justify-center px-6 py-3 font-semibold transition-colors disabled:cursor-wait disabled:opacity-80 motion-reduce:transition-none sm:w-auto ${t.submit}`}
       >
         {status === "sending" ? copy.sending : copy.submit}
       </button>
 
       <div role="status" aria-live="polite" className="text-[0.95rem] font-medium">
-        {status === "sent" && <p className="rounded-2xl bg-accent-blush px-4 py-3 text-ink">{copy.success}</p>}
+        {status === "sent" && <p className={`px-4 py-3 ${t.status}`}>{copy.success}</p>}
         {status === "failed" && (
-          <p className="rounded-2xl bg-accent-blush px-4 py-3 text-ink">
+          <p className={`px-4 py-3 ${t.status}`}>
             {copy.errors.failed}{" "}
-            <a href={`mailto:${email}`} className="font-semibold text-accent underline underline-offset-2">
+            <a href={`mailto:${email}`} className={`font-semibold underline underline-offset-2 ${t.link}`}>
               {email}
             </a>
             .

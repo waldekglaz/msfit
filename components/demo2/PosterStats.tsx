@@ -1,11 +1,12 @@
-import { demo } from "@/lib/data";
 import { wrap } from "./ui";
 
-export function PosterStats() {
+type Stat = { value: string; label: string };
+
+export function PosterStats({ stats }: { stats: Stat[] }) {
   return (
     <section aria-label="W skrócie" className="border-y border-white/10 bg-poster-ink">
       <ul className={`${wrap} grid grid-cols-3`}>
-        {demo.stats.map((stat, index) => (
+        {stats.map((stat, index) => (
           <li
             key={stat.value}
             className={`py-8 sm:py-12 ${index > 0 ? "border-l border-white/10 pl-4 sm:pl-10 lg:pl-14" : "pr-4"}`}

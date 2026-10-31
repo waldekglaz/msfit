@@ -1,8 +1,10 @@
-import { demo } from "@/lib/data";
+import type { Link } from "@/lib/data";
 import { PosterMenu } from "./PosterMenu";
 import { PButton, wrap } from "./ui";
 
-export function PosterHeader() {
+type Props = { nav: Link[]; cta: Link; ctaShort: string };
+
+export function PosterHeader({ nav, cta, ctaShort }: Props) {
   return (
     <header className="sticky top-0 z-40 border-b border-white/10 bg-poster-black/85 backdrop-blur-md">
       <div className={`${wrap} flex h-[4.5rem] items-center justify-between gap-6`}>
@@ -13,7 +15,7 @@ export function PosterHeader() {
 
         <nav aria-label="Sekcje strony" className="hidden lg:block">
           <ul className="flex items-center gap-9 text-[0.95rem] font-medium text-poster-grey">
-            {demo.nav.map((item) => (
+            {nav.map((item) => (
               <li key={item.href}>
                 <a href={item.href} className="transition-colors duration-200 hover:text-white">
                   {item.label}
@@ -24,10 +26,10 @@ export function PosterHeader() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <PButton href={demo.cta.href} external size="sm" className="hidden sm:inline-flex">
-            {demo.ctaShort}
+          <PButton href={cta.href} external size="sm" className="hidden sm:inline-flex">
+            {ctaShort}
           </PButton>
-          <PosterMenu nav={demo.nav} cta={demo.cta} />
+          <PosterMenu nav={nav} cta={cta} />
         </div>
       </div>
     </header>

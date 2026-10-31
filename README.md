@@ -38,6 +38,7 @@ app/
     regulamin/               terms for digital products (template)
   demo/                      /demo: editorial redesign (own fonts, header, footer)
   demo-2/                    /demo-2: poster-campaign redesign (own fonts, header, footer)
+  demo-3/                    /demo-3: main-page content in the /demo-2 poster style
   not-found.tsx              404 page
   globals.css                base styles, focus rings, legal text styles, animations
   api/contact/route.ts       contact form endpoint (Resend)
@@ -45,10 +46,12 @@ app/
   icon.svg                   favicon
 components/                  one file per section + small shared pieces
   demo/                      sections of the /demo page
-  demo2/                     sections of the /demo-2 page
+  demo2/                     poster sections (shared by /demo-2 and /demo-3)
+  demo3/                     sections only /demo-3 needs
 lib/
   data.ts                    ALL text, links, prices, products, FAQ, legal/business info
   fonts.ts                   main-site font (Archivo)
+  fonts-poster.ts            poster fonts for /demo-2 and /demo-3
   metadata.ts                per-page SEO/OpenGraph helper
   format.ts                  price formatting (PLN / GBP)
 public/images/               photos (some interim, see "Swapping images")
@@ -117,6 +120,28 @@ listopad" Instagram poster. Same content as `/demo`, completely different art di
   hover, slightly rounded rectangles, sizes `md`, `sm` and `card`.
 - `noindex, nofollow`, not in the sitemap; the footer links to the standard page and to `/demo`.
 - Lighthouse (local, simulated mobile): Performance 97–98, Accessibility 100, Best Practices 96
+  (the local-only Vercel Analytics 404), SEO 69 only because of the intentional `noindex`.
+
+## Demo 3 (`/demo-3`)
+
+The main page (`/`) rebuilt in the `/demo-2` poster style: same content, same section order,
+same working contact form, but black, hot pink, Abril Fatface headlines and dramatic photos.
+
+- **Content:** read straight from the main-site data in `lib/data.ts` (`hero`, `problem`,
+  `about`, `howIWork`, `offers`, `transformations`, `testimonials`, `products`, `faq`,
+  `finalCta`, `contactForm`), so editing the main page updates this one too. Only the poster
+  line breaks of the hero headline and the words shown in pink live in `demo3`.
+- **Shared with `/demo-2`:** header, hero, stats strip, steps, FAQ and footer come from
+  `components/demo2/` and take their content as props; both pages use `PosterRoot` and
+  `lib/fonts-poster.ts`.
+- **Shared with the main site:** the contact form, the yo-yo chart and the "Przykładowa treść"
+  badge are the same components with a dark `tone`, so validation, the honeypot, the API call
+  and the screen-reader behaviour are identical.
+- **Section rhythm:** black and charcoal alternate; the 1:1 offer is the one pink-framed panel;
+  the closing section pairs the big question with the contact form on a wine glow.
+- Placeholder testimonials and transformations keep their visible badge, as on the main page.
+- `noindex, nofollow`, not in the sitemap; the footer links back to `/`, `/demo` and `/demo-2`.
+- Lighthouse (local, simulated mobile): Performance 97, Accessibility 100, Best Practices 96
   (the local-only Vercel Analytics 404), SEO 69 only because of the intentional `noindex`.
 ---
 
@@ -282,12 +307,14 @@ Local production build (`next start`), Lighthouse 12, simulated mobile:
 
 | Page         | Performance | Accessibility | Best Practices | SEO |
 | ------------ | ----------- | ------------- | -------------- | --- |
-| `/`          | 97          | 100           | 96*            | 100 |
+| `/`          | 94–97       | 100           | 96*            | 100 |
 | `/regulamin` | 96          | 100           | 96*            | 100 |
 
 \* The only deduction is a console 404 for `/_vercel/insights/script.js`, a route that exists only
-on Vercel, so expect 100 once deployed. The home page was re-measured with the interim Instagram
-photos; keep replacement photos reasonably sized to stay at 95+. Also verified: one `h1` and sequential
+on Vercel, so expect 100 once deployed. Home-page Performance varies between runs (LCP is the
+hero photo on simulated slow 4G); it was re-measured with the interim Instagram photos. Keep
+replacement photos reasonably sized, and re-check on the deployed site, where the CDN usually
+makes it faster. Also verified: one `h1` and sequential
 headings, labels on every input, alt text on every image, keyboard focus rings, Escape closes the
 mobile menu, form validation messages announced to screen readers, API validation/honeypot.
 

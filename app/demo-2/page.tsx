@@ -10,28 +10,50 @@ import { PosterStatement } from "@/components/demo2/PosterStatement";
 import { PosterStats } from "@/components/demo2/PosterStats";
 import { PosterSteps } from "@/components/demo2/PosterSteps";
 import { PosterTransformation } from "@/components/demo2/PosterTransformation";
+import { DmText } from "@/components/demo2/ui";
 import { StickyCta } from "@/components/StickyCta";
-import { demo } from "@/lib/data";
+import { demo, demo2 } from "@/lib/data";
 
 // Poster-campaign redesign of the landing page (copy: `demo` and `demo2`
 // in lib/data.ts). Black and charcoal sections alternate for rhythm.
 export default function PosterPage() {
   return (
     <>
-      <PosterHeader />
+      <PosterHeader nav={demo.nav} cta={demo.cta} ctaShort={demo.ctaShort} />
       <main id="tresc">
-        <PosterHero />
-        <PosterStats />
+        <PosterHero
+          lines={demo2.hero.lines}
+          linesPink={demo2.pink.heroLines}
+          lead={demo2.hero.lead}
+          leadPink={demo2.pink.heroLead}
+          primary={demo.cta}
+          secondary={demo.hero.secondary}
+          image={demo.hero.image}
+          footnote={<DmText />}
+        />
+        <PosterStats stats={demo.stats} />
         <PosterForYou />
         <PosterStatement />
         <PosterOffer />
-        <PosterSteps />
+        <PosterSteps
+          id="jak-to-dziala"
+          title={demo.steps.title}
+          pinkWords={demo2.pink.steps}
+          intro={demo.steps.intro}
+          steps={demo.steps.items}
+        />
         <PosterTransformation />
         <PosterPricing />
-        <PosterFaq />
+        <PosterFaq
+          title={demo.faq.title}
+          pinkWords={demo2.pink.faq}
+          intro={demo.faq.intro}
+          items={demo.faq.items}
+          contact={{ label: "Napisz na Instagramie", href: demo.dm.href, external: true }}
+        />
         <PosterFinal />
       </main>
-      <PosterFooter />
+      <PosterFooter cta={demo.cta} backLinks={demo2.backLinks} />
       <StickyCta cta={demo.cta} tone="poster" />
     </>
   );

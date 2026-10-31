@@ -815,3 +815,37 @@ export const demo2 = {
     { label: "Wersja edytorska (demo 1)", href: "/demo" },
   ] satisfies Link[],
 };
+
+// ---------------------------------------------------------------------
+// Demo 3 (/demo-3)
+//
+// The main page's content and section order (everything above, from
+// `hero` to `contactForm`) in the /demo-2 poster style. Only the poster
+// line breaks and the words shown in pink live here.
+// Not indexed and not in the sitemap.
+// ---------------------------------------------------------------------
+
+export const demo3 = {
+  /** hero.title split into poster lines. Keep in sync with hero.title. */
+  heroLines: ["Schudnij", "na dobre.", "Bez efektu", "jojo."],
+  /** Phrases shown in hot pink, matched inside the main page's copy. */
+  pink: {
+    heroLines: ["Bez efektu", "jojo."],
+    heroLead: ["szyte na miarę"],
+    problem: ["aż za dobrze"],
+    about: ["Marta"],
+    howIWork: ["współpraca"],
+    offer: ["1:1"],
+    transformations: ["Metamorfozy"],
+    testimonials: ["podopiecznych"],
+    faq: ["pytania"],
+    final: ["na zmianę?"],
+  },
+  /** Icons for the three problem points, in order. */
+  problemIcons: ["loop", "clock", "energy"] satisfies DemoIcon[],
+  backLinks: [
+    { label: "Standardowa wersja strony", href: "/" },
+    { label: "Wersja edytorska (demo 1)", href: "/demo" },
+    { label: "Wersja plakatowa (demo 2)", href: "/demo-2" },
+  ] satisfies Link[],
+};

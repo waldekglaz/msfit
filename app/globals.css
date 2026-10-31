@@ -49,7 +49,7 @@
   }
 
   /* /demo-2 poster theme */
-  body:has(#demo2-root) {
+  body:has(.poster-theme) {
     background-color: theme("colors.poster.black");
   }
 

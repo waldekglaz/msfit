@@ -1,22 +1,31 @@
-import { demo, demo2 } from "@/lib/data";
+import type { ReactNode } from "react";
 import { Pink, sectionY, wrap } from "./ui";
+
+type Props = {
+  id: string;
+  title: string;
+  pinkWords: string[];
+  intro: string;
+  steps: { title: string; text: string }[];
+  /** Optional block after the steps (the 1:1 offer on /demo-3). */
+  children?: ReactNode;
+};
 
 // Four full-width rows: a giant pink numeral, the step in bold serif and
 // its description, so the process reads like a campaign spread.
-export function PosterSteps() {
-  const { steps } = demo;
+export function PosterSteps({ id, title, pinkWords, intro, steps, children }: Props) {
   return (
-    <section id="jak-to-dziala" aria-labelledby="jak-to-dziala-title" className={`bg-poster-ink ${sectionY}`}>
+    <section id={id} aria-labelledby={`${id}-title`} className={`bg-poster-ink ${sectionY}`}>
       <div className={wrap}>
         <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
-          <h2 id="jak-to-dziala-title" className="font-poster text-p-h2 lg:col-span-6">
-            <Pink text={steps.title} words={demo2.pink.steps} />
+          <h2 id={`${id}-title`} className="font-poster text-p-h2 lg:col-span-6">
+            <Pink text={title} words={pinkWords} />
           </h2>
-          <p className="max-w-md text-lg leading-relaxed text-poster-grey lg:col-span-5 lg:col-start-8">{steps.intro}</p>
+          <p className="max-w-md text-lg leading-relaxed text-poster-grey lg:col-span-5 lg:col-start-8">{intro}</p>
         </div>
 
         <ol className="mt-14 border-b border-white/10 lg:mt-20">
-          {steps.items.map((step, index) => (
+          {steps.map((step, index) => (
             <li
               key={step.title}
               className="group grid gap-x-8 gap-y-3 border-t border-white/10 py-9 sm:grid-cols-12 sm:items-center lg:py-12"
@@ -36,6 +45,8 @@ export function PosterSteps() {
             </li>
           ))}
         </ol>
+
+        {children}
       </div>
     </section>
   );

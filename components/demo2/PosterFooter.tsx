@@ -1,10 +1,12 @@
 import Link from "next/link";
-import { demo, demo2, footer, site } from "@/lib/data";
+import { footer, site, type Link as NavLink } from "@/lib/data";
 import { wrap } from "./ui";
 
 const linkClass = "inline-flex min-h-11 items-center transition-colors duration-200 hover:text-poster-bright";
 
-export function PosterFooter() {
+type Props = { cta: NavLink; backLinks: NavLink[] };
+
+export function PosterFooter({ cta, backLinks }: Props) {
   return (
     // Bottom padding on phones keeps the sticky CTA from covering the footer.
     <footer className="overflow-hidden border-t border-white/10 bg-poster-black pb-28 md:pb-10">
@@ -28,14 +30,14 @@ export function PosterFooter() {
               </a>
             </li>
             <li>
-              <a href={demo.cta.href} target="_blank" rel="noopener noreferrer" className={`${linkClass} text-poster-bright`}>
-                {demo.cta.label}
+              <a href={cta.href} target="_blank" rel="noopener noreferrer" className={`${linkClass} text-poster-bright`}>
+                {cta.label}
                 <span className="sr-only"> (otwiera się w nowej karcie)</span>
               </a>
             </li>
           </ul>
           <ul className="text-[0.95rem] font-medium lg:col-span-3">
-            {[...footer.legalLinks, ...demo2.backLinks].map((link) => (
+            {[...footer.legalLinks, ...backLinks].map((link) => (
               <li key={link.href}>
                 <Link href={link.href} className={linkClass}>
                   {link.label}
