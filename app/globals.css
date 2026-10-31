@@ -1,0 +1,220 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-porcelain text-ink antialiased;
+  }
+
+  /* Anchor targets land below the sticky header. */
+  [id] {
+    scroll-margin-top: 5.5rem;
+  }
+
+  :focus-visible {
+    outline: 3px solid theme("colors.accent.DEFAULT");
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  .on-dark :focus-visible {
+    outline-color: theme("colors.accent.light");
+  }
+
+  .on-dark .on-light :focus-visible {
+    outline-color: theme("colors.accent.DEFAULT");
+  }
+
+  /* /demo editorial theme */
+  body:has(#demo-root) {
+    background-color: theme("colors.ed.ivory");
+  }
+
+  .ed-theme :focus-visible {
+    outline-color: theme("colors.ed.rose-deep");
+  }
+
+  /* Bodoni Moda's optical-size axis would go fully "display" at headline
+     sizes, where hairlines almost vanish. Pinning it keeps them crisp but
+     readable. */
+  .ed-theme .font-display {
+    font-optical-sizing: none;
+    font-variation-settings: "opsz" 28;
+  }
+
+  /* /demo-2 poster theme */
+  body:has(#demo2-root) {
+    background-color: theme("colors.poster.black");
+  }
+
+  /* Abril Fatface ships one (already heavy) weight: never fake a bolder one. */
+  .poster-theme .font-poster {
+    font-synthesis: none;
+  }
+
+  .poster-theme :focus-visible {
+    outline-color: theme("colors.poster.bright");
+  }
+
+  .poster-theme ::selection {
+    background-color: theme("colors.poster.pink");
+    color: theme("colors.poster.black");
+  }
+
+  .ed-dark :focus-visible {
+    outline-color: theme("colors.ed.rose-light");
+  }
+
+  .ed-theme ::selection {
+    background-color: theme("colors.ed.rose");
+    color: theme("colors.ed.ink");
+  }
+
+  summary {
+    list-style: none;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+}
+
+@layer components {
+  /* Long-form legal text (no typography plugin needed). */
+  .legal {
+    @apply text-[1.0625rem] leading-relaxed text-ink-soft;
+  }
+  .legal h2 {
+    @apply mb-3 mt-12 font-semi-expanded text-2xl font-bold leading-tight text-ink;
+  }
+  .legal h3 {
+    @apply mb-2 mt-8 text-lg font-semibold text-ink;
+  }
+  .legal p,
+  .legal ul,
+  .legal ol {
+    @apply mt-3;
+  }
+  .legal ul {
+    @apply list-disc space-y-2 pl-6;
+  }
+  .legal ol {
+    @apply list-decimal space-y-2 pl-6;
+  }
+  .legal a {
+    @apply font-semibold text-accent underline underline-offset-2;
+  }
+  .legal strong {
+    @apply font-semibold text-ink;
+  }
+}
+
+@layer utilities {
+  /* Archivo's width axis: wide, athletic headings. */
+  .font-expanded {
+    font-stretch: 125%;
+  }
+  .font-semi-expanded {
+    font-stretch: 112%;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* The one orchestrated moment: the steady line in the yo-yo chart draws
+     itself as the chart scrolls into view (browsers with scroll-driven
+     animations only; everyone else sees the finished chart). */
+  @supports (animation-timeline: view()) {
+    .draw-on-view {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      animation: draw-line linear both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 55%;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* /demo: one load sequence in the hero (text settles in, photo unveils
+     upwards). Everything else only moves in answer to hover or a click. */
+  .ed-enter {
+    animation: ed-enter 0.8s cubic-bezier(0.2, 0.65, 0.2, 1) both;
+    animation-delay: calc(var(--i, 0) * 90ms);
+  }
+  .ed-unveil {
+    animation: ed-unveil 1s cubic-bezier(0.65, 0, 0.25, 1) 0.1s both;
+  }
+
+  /* FAQ answers slide open where the browser can animate to height: auto. */
+  @supports (interpolate-size: allow-keywords) {
+    .faq-anim {
+      interpolate-size: allow-keywords;
+    }
+    .faq-anim details::details-content {
+      height: 0;
+      overflow: clip;
+      transition:
+        height 0.35s cubic-bezier(0.2, 0.65, 0.2, 1),
+        content-visibility 0.35s allow-discrete;
+    }
+    .faq-anim details[open]::details-content {
+      height: auto;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* /demo-2: the poster headline rises line by line, then the pink rule
+     draws under it. Nothing else animates on its own. */
+  .p-rise {
+    animation: p-rise 0.75s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation-delay: calc(var(--i, 0) * 110ms + 60ms);
+  }
+  .p-rule {
+    transform-origin: left;
+    animation: p-rule 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) 0.55s both;
+  }
+  .p-fade {
+    animation: ed-enter 0.8s cubic-bezier(0.2, 0.65, 0.2, 1) 0.45s both;
+  }
+}
+
+@keyframes p-rise {
+  from {
+    transform: translateY(105%);
+  }
+}
+
+@keyframes p-rule {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes ed-enter {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+@keyframes ed-unveil {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+}
+
+@keyframes draw-line {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
