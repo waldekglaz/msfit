@@ -11,8 +11,9 @@ import { PosterHeader } from "@/components/demo2/PosterHeader";
 import { PosterHero } from "@/components/demo2/PosterHero";
 import { PosterStats } from "@/components/demo2/PosterStats";
 import { PosterSteps } from "@/components/demo2/PosterSteps";
+import { PayhipDialog } from "@/components/PayhipDialog";
 import { StickyCta } from "@/components/StickyCta";
-import { applyCta, demo3, faq, hero, howIWork, ids, nav, ui } from "@/lib/data";
+import { applyCta, demo, demo3, faq, hero, howIWork, ids, nav, ui } from "@/lib/data";
 
 // The main page's content and section order in the /demo-2 poster style.
 // Main-site nav links point at "/#section"; here they stay on this page.
@@ -60,6 +61,7 @@ export default function PosterMainPage() {
       </main>
       <PosterFooter cta={applyCta} backLinks={demo3.backLinks} />
       <StickyCta cta={applyCta} tone="poster" contactId={ids.contact} newTabLabel={ui.newTab} />
+      <PayhipDialog tone="poster" {...demo.payhip} newTabLabel={ui.newTab} />
     </>
   );
 }

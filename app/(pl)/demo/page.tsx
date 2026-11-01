@@ -9,6 +9,7 @@ import { DemoSteps } from "@/components/demo/DemoSteps";
 import { DemoTransformation } from "@/components/demo/DemoTransformation";
 import { ForYou } from "@/components/demo/ForYou";
 import { Statement } from "@/components/demo/Statement";
+import { PayhipDialog } from "@/components/PayhipDialog";
 import { StickyCta } from "@/components/StickyCta";
 import { demo, ids, ui } from "@/lib/data";
 
@@ -31,6 +32,7 @@ export default function DemoPage() {
       </main>
       <DemoFooter />
       <StickyCta cta={demo.cta} tone="editorial" contactId={ids.contact} newTabLabel={ui.newTab} />
+      <PayhipDialog tone="editorial" {...demo.payhip} newTabLabel={ui.newTab} />
     </>
   );
 }

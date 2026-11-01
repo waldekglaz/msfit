@@ -47,7 +47,7 @@ export function PosterPricing() {
                   ))}
                 </ul>
                 <div className="self-end pt-8">
-                  <PButton href={product.checkoutUrl} external variant="outline" srLabel={product.title} size="card" className="w-full">
+                  <PButton href={product.checkoutUrl} external={!product.payhipKey} payhipKey={product.payhipKey} variant="outline" srLabel={product.title} size="card" className="w-full">
                     {pricing.buyLabel}
                   </PButton>
                 </div>

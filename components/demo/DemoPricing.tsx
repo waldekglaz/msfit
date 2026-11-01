@@ -47,7 +47,7 @@ export function DemoPricing() {
                   ))}
                 </ul>
                 <div className="self-end pt-8">
-                  <EdButton href={product.checkoutUrl} external variant="outline" srLabel={product.title} className="w-full">
+                  <EdButton href={product.checkoutUrl} external={!product.payhipKey} payhipKey={product.payhipKey} variant="outline" srLabel={product.title} className="w-full">
                     {pricing.buyLabel}
                   </EdButton>
                 </div>

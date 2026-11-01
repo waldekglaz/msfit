@@ -28,16 +28,19 @@ type ButtonProps = {
   size?: keyof typeof buttonSizes;
   /** Opens in a new tab and tells screen-reader users so. */
   external?: boolean;
+  /** Opens this Payhip product in the popup (components/PayhipDialog.tsx). */
+  payhipKey?: string;
   srLabel?: string;
   className?: string;
 };
 
-export function EdButton({ href, children, variant = "primary", size = "md", external = false, srLabel, className = "" }: ButtonProps) {
+export function EdButton({ href, children, variant = "primary", size = "md", external = false, payhipKey, srLabel, className = "" }: ButtonProps) {
   return (
     <a
       href={href}
       className={`group inline-flex items-center justify-center gap-3 rounded-full text-center font-medium tracking-[0.01em] transition-colors duration-300 ease-out motion-reduce:transition-none ${buttonSizes[size]} ${buttonVariants[variant]} ${className}`}
       {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      {...(payhipKey ? { "data-payhip-key": payhipKey, "aria-haspopup": "dialog" as const } : {})}
     >
       <span>
         {children}

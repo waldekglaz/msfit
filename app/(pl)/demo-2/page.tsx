@@ -11,6 +11,7 @@ import { PosterStats } from "@/components/demo2/PosterStats";
 import { PosterSteps } from "@/components/demo2/PosterSteps";
 import { PosterTransformation } from "@/components/demo2/PosterTransformation";
 import { DmText } from "@/components/demo2/ui";
+import { PayhipDialog } from "@/components/PayhipDialog";
 import { StickyCta } from "@/components/StickyCta";
 import { demo, demo2, ids, ui } from "@/lib/data";
 
@@ -55,6 +56,7 @@ export default function PosterPage() {
       </main>
       <PosterFooter cta={demo.cta} backLinks={demo2.backLinks} />
       <StickyCta cta={demo.cta} tone="poster" contactId={ids.contact} newTabLabel={ui.newTab} />
+      <PayhipDialog tone="poster" {...demo.payhip} newTabLabel={ui.newTab} />
     </>
   );
 }

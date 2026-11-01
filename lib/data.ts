@@ -372,6 +372,9 @@ export type Product = {
   checkoutUrl: string;
   /** Short "what's inside" bullets, shown on the /demo pricing cards. */
   features?: string[];
+  /** Payhip product key: on the demos, the buy button opens the product in a
+   *  popup (components/PayhipDialog.tsx) instead of following `checkoutUrl`. */
+  payhipKey?: string;
 };
 
 export type Currency = keyof Product["price"];
@@ -703,6 +706,18 @@ export type DemoIcon =
 
 export type DemoCard = { icon: DemoIcon; title: string; text: string };
 
+/** Payhip's free "test" product, for trying the checkout popup. */
+const payhipTestKey = "cANmj";
+
+/** The products as shown on all three demos: the same as the main page, except
+ *  that the e-book card opens the Payhip test product. TESTING ONLY: the popup
+ *  shows that product, not the e-book, and it is free whatever the card says. */
+export const demoProducts: Product[] = products.items.map((product) =>
+  product.id === "ebook-przepisy"
+    ? { ...product, checkoutUrl: `https://payhip.com/b/${payhipTestKey}`, payhipKey: payhipTestKey }
+    : product,
+);
+
 export const demo = {
   meta: {
     title: "Otwieram 3 wolne miejsca na listopad",
@@ -837,7 +852,7 @@ export const demo = {
   pricing: {
     title: "Wybierz swój start",
     intro: "Zacznij samodzielnie z gotowym planem albo pracuj ze mną 1:1.",
-    products: products.items,
+    products: demoProducts,
     buyLabel: products.buyLabel,
     coaching: {
       name: offers[0].title,
@@ -865,6 +880,14 @@ export const demo = {
     title: "Jedno z 3 miejsc może być Twoje.",
     text: "Każdą podopieczną prowadzę osobiście, dlatego liczba miejsc w miesiącu jest ograniczona. Wypełnij krótką aplikację – odezwę się i porozmawiamy o Twoim celu.",
     image: hero.image,
+  },
+
+  /** The Payhip popup, shared by all three demos. */
+  payhip: {
+    label: "Szczegóły produktu",
+    closeLabel: "Zamknij",
+    loadingLabel: "Ładowanie…",
+    productPageLabel: "Otwórz na stronie Payhip",
   },
 
   backLink: { label: "Zobacz standardową wersję strony", href: "/" } satisfies Link,

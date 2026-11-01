@@ -53,6 +53,7 @@ app/                         route groups in (brackets) don't change URLs
 components/                  one file per section + small shared pieces
   HomePage.tsx               the main page in either language (section order lives here)
   SiteShell.tsx              Archivo font, header, footer
+  PayhipDialog.tsx           popup for Payhip products (demos, see "Connecting checkout links")
   demo/                      sections of the /demo page
   demo2/                     poster sections (shared by /demo-2 and /demo-3)
   demo3/                     sections only /demo-3 needs
@@ -293,6 +294,35 @@ When the provider is chosen, also:
    withdrawal right**, and sends it in the confirmation email (all three providers support this
    for digital products). The Regulamin relies on it.
 2. Update `business.paymentProvider` and the last item of `legal.processors` in `lib/data.ts`.
+
+### Payhip popup (demos, for testing)
+
+On `/demo`, `/demo-2` and `/demo-3` the e-book's "Kup teraz" button opens Payhip's free **test**
+product (`cANmj`) in a popup, so what the popup shows doesn't match the card's title or price.
+`/` and `/en` are not affected. The key is set in `demoProducts` in `lib/data.ts`; any product
+with a `payhipKey` gets the popup on the demos.
+
+- **How it works:** `components/PayhipDialog.tsx` is a native `<dialog>` holding an iframe of the
+  product's page. It needs only the product key. Nothing from Payhip loads until the first click,
+  and without JavaScript the button is a plain link to the product page.
+- **Why not Payhip's snippet as it comes:** `embed-page.js` breaks in a popup. A `#section` in the
+  address cuts off the iframe id it sends, and the height the page reports for its zero-height
+  iframe is often 0, which leaves it collapsed. Their embed **button** (`payhip.js`) doesn't open an
+  overlay any more, even with `data-method="overlay"`: it sends the whole tab to Payhip. So the
+  popup uses the same page in its own iframe, which relies on two undocumented details (the
+  `is_embed_page` parameter and the checkout message). If Payhip changes them, the "Otwórz na
+  stronie Payhip" link at the top of the popup still works.
+- **Checkout leaves the site.** Pressing buy in the popup sends the whole tab to Payhip's checkout.
+- **Not tested yet:** the buy button and the step to checkout. Payhip doesn't show a buy button
+  until a **PayPal or Stripe account is connected** in the Payhip settings.
+
+Before using this for real products:
+
+1. Test a purchase on an **iPhone** and in **Instagram's browser**. The embed hands off to checkout
+   through a session (`buy?s=1`), and browsers that block cookies inside iframes may lose it.
+2. Add the popup to the main page if wanted (`Products.tsx`, `ButtonLink`, `PayhipDialog`).
+3. Update the privacy policy: Payhip's page loads Google Analytics and the Facebook pixel once
+   the popup opens, so "no cookies" no longer holds after that click.
 
 ---
 

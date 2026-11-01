@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { products } from "@/lib/data";
+import { demoProducts, products } from "@/lib/data";
 import { formatPrices } from "@/lib/format";
 import { PButton, sectionY, wrap } from "../demo2/ui";
 
@@ -15,7 +15,7 @@ export function D3Products() {
         </div>
 
         <ul className="mt-14 grid gap-4 md:grid-cols-2 lg:mt-20 lg:grid-cols-3">
-          {products.items.map((product) => {
+          {demoProducts.map((product) => {
             const [mainPrice, ...otherPrices] = formatPrices(product.price);
             return (
               <li key={product.id}>
@@ -38,7 +38,7 @@ export function D3Products() {
                       <span className="font-poster text-[3.25rem] leading-none tracking-[-0.03em] text-poster-pink">{mainPrice}</span>
                       {otherPrices.length > 0 && <span className="text-sm text-poster-grey">lub {otherPrices.join(" lub ")}</span>}
                     </p>
-                    <PButton href={product.checkoutUrl} external variant="outline" srLabel={product.title} size="card" className="mt-8 w-full">
+                    <PButton href={product.checkoutUrl} external={!product.payhipKey} payhipKey={product.payhipKey} variant="outline" srLabel={product.title} size="card" className="mt-8 w-full">
                       {products.buyLabel}
                     </PButton>
                   </div>

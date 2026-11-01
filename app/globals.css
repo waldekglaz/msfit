@@ -48,6 +48,11 @@
     font-variation-settings: "opsz" 28;
   }
 
+  /* The page behind an open popup (e.g. the Payhip one) stays put. */
+  html:has(dialog[open]) {
+    overflow: hidden;
+  }
+
   /* /demo-2 poster theme */
   body:has(.poster-theme) {
     background-color: theme("colors.poster.black");
