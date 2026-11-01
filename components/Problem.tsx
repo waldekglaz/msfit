@@ -1,7 +1,8 @@
-import { problem } from "@/lib/data";
+import type { Content } from "@/lib/data";
 import { YoyoChart } from "./YoyoChart";
 
-export function Problem() {
+export function Problem({ content }: { content: Content }) {
+  const { problem, ui } = content;
   return (
     <section aria-labelledby="problem-title" className="on-dark bg-ink text-porcelain">
       <div className="mx-auto grid max-w-6xl gap-12 px-5 py-20 sm:px-8 lg:grid-cols-12 lg:gap-16 lg:py-28">
@@ -22,7 +23,7 @@ export function Problem() {
         </div>
 
         <div className="lg:col-span-7 lg:pt-2">
-          <YoyoChart />
+          <YoyoChart chart={problem.chart} legendLabel={ui.chartLegend} />
         </div>
       </div>
     </section>

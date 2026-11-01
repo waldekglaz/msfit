@@ -1,10 +1,15 @@
-import { about, faq, hero, offers, site } from "@/lib/data";
+import type { Content } from "@/lib/data";
 
-// Structured data (schema.org) in Polish: the coach as a Person and her
-// online coaching business as a ProfessionalService.
-export function JsonLd() {
+// Structured data (schema.org), in the page's language: the coach as a
+// Person and her online coaching business as a ProfessionalService. The
+// @ids are shared by both language versions, since they describe the same
+// person, business and website.
+export function JsonLd({ content }: { content: Content }) {
+  const { site, about, hero, offers, faq, schema, home } = content;
   const personId = `${site.url}/#marta`;
   const businessId = `${site.url}/#ms-fit-coaching`;
+  const pageUrl = home === "/" ? site.url : `${site.url}${home}`;
+  const inLanguage = site.locale.replace("_", "-");
 
   const data = {
     "@context": "https://schema.org",
@@ -36,14 +41,14 @@ export function JsonLd() {
         areaServed: site.areaServed.map((name) => ({ "@type": "Country", name })),
         hasOfferCatalog: {
           "@type": "OfferCatalog",
-          name: "Współpraca i produkty",
+          name: schema.catalogName,
           itemListElement: offers.map((offer) => ({
             "@type": "Offer",
             itemOffered: {
               "@type": "Service",
               name: offer.title,
               description: offer.text,
-              serviceType: "Trening personalny i dieta online",
+              serviceType: schema.serviceType,
               provider: { "@id": personId },
             },
           })),
@@ -59,8 +64,8 @@ export function JsonLd() {
       },
       {
         "@type": "FAQPage",
-        "@id": `${site.url}/#faq`,
-        inLanguage: "pl-PL",
+        "@id": `${pageUrl}#faq`,
+        inLanguage,
         mainEntity: faq.items.map((item) => ({
           "@type": "Question",
           name: item.question,

@@ -1,13 +1,15 @@
-import { howIWork, offers } from "@/lib/data";
+import type { Content } from "@/lib/data";
 import { ButtonLink } from "./ButtonLink";
 import { CheckIcon } from "./Icons";
 
-export function HowIWork() {
+export function HowIWork({ content }: { content: Content }) {
+  const { howIWork, offers, ui } = content;
+  const id = content.ids.howIWork;
   return (
-    <section id="jak-pracuje" aria-labelledby="jak-pracuje-title" className="bg-accent-blush py-20 lg:py-28">
+    <section id={id} aria-labelledby={`${id}-title`} className="bg-accent-blush py-20 lg:py-28">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <div className="max-w-2xl">
-          <h2 id="jak-pracuje-title" className="font-expanded text-title font-extrabold">
+          <h2 id={`${id}-title`} className="font-expanded text-title font-extrabold">
             {howIWork.title}
           </h2>
           <p className="mt-5 text-lg leading-relaxed text-ink-soft">{howIWork.intro}</p>
@@ -41,7 +43,7 @@ export function HowIWork() {
             <div>
               <h3 className="font-semi-expanded text-2xl font-extrabold sm:text-3xl">{offer.title}</h3>
               <p className="mt-4 text-lg leading-relaxed text-ink-soft">{offer.text}</p>
-              <ButtonLink href={offer.cta.href} external className="mt-8 w-full sm:w-auto">
+              <ButtonLink href={offer.cta.href} external newTabLabel={ui.newTab} className="mt-8 w-full sm:w-auto">
                 {offer.cta.label}
               </ButtonLink>
             </div>

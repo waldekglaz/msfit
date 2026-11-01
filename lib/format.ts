@@ -1,4 +1,4 @@
-import type { Product } from "./data";
+import type { Currency, Product } from "./data";
 
 function money(value: number, currency: "PLN" | "GBP") {
   const digits = Number.isInteger(value) ? 0 : 2;
@@ -10,10 +10,13 @@ function money(value: number, currency: "PLN" | "GBP") {
   }).format(value);
 }
 
-/** "79 zł" / "£15", in the order they should be shown. */
-export function formatPrices(price: Product["price"]): string[] {
+/** "79 zł" / "£15", in the order they should be shown (złoty first unless
+ *  `order` says otherwise). */
+export function formatPrices(price: Product["price"], order: Currency[] = ["pln", "gbp"]): string[] {
   const prices: string[] = [];
-  if (price.pln != null) prices.push(money(price.pln, "PLN"));
-  if (price.gbp != null) prices.push(money(price.gbp, "GBP"));
+  for (const currency of order) {
+    const value = price[currency];
+    if (value != null) prices.push(money(value, currency === "pln" ? "PLN" : "GBP"));
+  }
   return prices;
 }

@@ -14,17 +14,25 @@ const sizes = {
   sm: "min-h-11 px-5 py-2.5 text-sm",
 };
 
+// Also used inside the client-side MobileMenu, so the new-tab wording comes
+// in as a prop rather than from lib/data (which would ship to the browser).
 type Props = {
   href: string;
   children: ReactNode;
   variant?: Variant;
   size?: keyof typeof sizes;
-  /** Opens in a new tab and tells screen-reader users so. */
-  external?: boolean;
   /** Extra words for screen readers, e.g. which product "Kup teraz" buys. */
   srLabel?: string;
   className?: string;
-};
+} & (
+  | { external?: false; newTabLabel?: never }
+  | {
+      /** Opens in a new tab and tells screen-reader users so... */
+      external: true;
+      /** ...in these words, e.g. ui.newTab for the page's language. */
+      newTabLabel: string;
+    }
+);
 
 export function ButtonLink({
   href,
@@ -32,6 +40,7 @@ export function ButtonLink({
   variant = "primary",
   size = "md",
   external = false,
+  newTabLabel,
   srLabel,
   className = "",
 }: Props) {
@@ -48,7 +57,7 @@ export function ButtonLink({
       {external && (
         <>
           <ExternalIcon className="h-4 w-4 shrink-0" />
-          <span className="sr-only"> (otwiera się w nowej karcie)</span>
+          <span className="sr-only"> {newTabLabel}</span>
         </>
       )}
     </a>

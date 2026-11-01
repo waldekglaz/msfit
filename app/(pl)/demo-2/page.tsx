@@ -12,7 +12,7 @@ import { PosterSteps } from "@/components/demo2/PosterSteps";
 import { PosterTransformation } from "@/components/demo2/PosterTransformation";
 import { DmText } from "@/components/demo2/ui";
 import { StickyCta } from "@/components/StickyCta";
-import { demo, demo2 } from "@/lib/data";
+import { demo, demo2, ids, ui } from "@/lib/data";
 
 // Poster-campaign redesign of the landing page (copy: `demo` and `demo2`
 // in lib/data.ts). Black and charcoal sections alternate for rhythm.
@@ -54,7 +54,7 @@ export default function PosterPage() {
         <PosterFinal />
       </main>
       <PosterFooter cta={demo.cta} backLinks={demo2.backLinks} />
-      <StickyCta cta={demo.cta} tone="poster" />
+      <StickyCta cta={demo.cta} tone="poster" contactId={ids.contact} newTabLabel={ui.newTab} />
     </>
   );
 }

@@ -2,6 +2,8 @@
 // MS Fit Coaching: all site content in one place.
 //
 // Edit text, links, prices and products here. Components only lay it out.
+// The English main page (/en) is in lib/data-en.ts; it reuses the photos,
+// prices and links from this file.
 // Anything marked [PLACEHOLDER] or TODO must be confirmed with Marta
 // before launch (the full checklist is at the end of README.md).
 //
@@ -18,6 +20,9 @@ export type ImageAsset = {
 };
 
 export type Link = { label: string; href: string };
+
+/** Languages of the main page. English copy lives in lib/data-en.ts. */
+export type Locale = "pl" | "en";
 
 // ---------------------------------------------------------------------
 // Site
@@ -68,13 +73,28 @@ export const applyCta: Link = {
 // Navigation
 // ---------------------------------------------------------------------
 
+/** Address of the main page in this language. */
+const home = "/";
+
+/** Section anchors on the main page (the part after "#" in links). */
+export const ids = {
+  content: "tresc",
+  about: "o-mnie",
+  howIWork: "jak-pracuje",
+  transformations: "metamorfozy",
+  testimonials: "opinie",
+  products: "produkty",
+  faq: "faq",
+  contact: "kontakt",
+};
+
 // Links start with "/" so they also work from the legal pages.
 export const nav: Link[] = [
-  { label: "O mnie", href: "/#o-mnie" },
-  { label: "Jak pracuję", href: "/#jak-pracuje" },
-  { label: "Metamorfozy", href: "/#metamorfozy" },
-  { label: "Produkty", href: "/#produkty" },
-  { label: "FAQ", href: "/#faq" },
+  { label: "O mnie", href: `${home}#${ids.about}` },
+  { label: "Jak pracuję", href: `${home}#${ids.howIWork}` },
+  { label: "Metamorfozy", href: `${home}#${ids.transformations}` },
+  { label: "Produkty", href: `${home}#${ids.products}` },
+  { label: "FAQ", href: `${home}#${ids.faq}` },
 ];
 
 // ---------------------------------------------------------------------
@@ -85,7 +105,7 @@ export const hero = {
   title: "Schudnij na dobre. Bez efektu jojo.",
   lead: "Dieta i trening szyte na miarę – pod Twój grafik, Twoje smaki i Twoje cele. Prowadzę Cię online, krok po kroku, aż nowe nawyki staną się codziennością.",
   primaryCta: applyCta,
-  secondaryCta: { label: "Zobacz produkty", href: "#produkty" } satisfies Link,
+  secondaryCta: { label: "Zobacz produkty", href: `#${ids.products}` } satisfies Link,
   stats: [
     // TODO [PLACEHOLDER] confirm the exact "1000+" claim with Marta.
     { value: "1000+", label: "podopiecznych" },
@@ -289,7 +309,9 @@ export const transformations = {
       },
       placeholder: true,
     },
-  ] satisfies Transformation[],
+    // Checked against the type, then widened to it, so the English page
+    // can mix quotes and descriptions differently.
+  ] satisfies Transformation[] as Transformation[],
 };
 
 // ---------------------------------------------------------------------
@@ -331,7 +353,7 @@ export const testimonials = {
       detail: "Wrocław",
       placeholder: true,
     },
-  ] satisfies Testimonial[],
+  ] satisfies Testimonial[] as Testimonial[],
 };
 
 // ---------------------------------------------------------------------
@@ -352,12 +374,16 @@ export type Product = {
   features?: string[];
 };
 
+export type Currency = keyof Product["price"];
+
 // TODO [PLACEHOLDER] final product names, descriptions, prices and mockups.
 export const products = {
   title: "Produkty",
   intro:
     "Chcesz zacząć samodzielnie? Gotowe materiały do pobrania od razu po zakupie.",
   buyLabel: "Kup teraz",
+  /** Which price is shown first. */
+  currencyOrder: ["pln", "gbp"] satisfies Currency[],
   items: [
     {
       id: "ebook-przepisy",
@@ -431,7 +457,7 @@ export type Faq = { question: string; answer: string; link?: Link };
 export const faq = {
   title: "Najczęstsze pytania",
   intro: "Nie ma tu odpowiedzi na Twoje pytanie? Chętnie pomogę.",
-  contactLink: { label: "Napisz do mnie", href: "#kontakt" } satisfies Link,
+  contactLink: { label: "Napisz do mnie", href: `#${ids.contact}` } satisfies Link,
   items: [
     {
       question: "Dla kogo jest współpraca?",
@@ -501,8 +527,11 @@ export const contactForm = {
     before:
       "Wyrażam zgodę na przetwarzanie moich danych w celu odpowiedzi na wiadomość, zgodnie z ",
     linkLabel: "Polityką prywatności",
+    href: "/polityka-prywatnosci",
     after: ".",
   },
+  /** Label of the hidden anti-spam field (never shown to people). */
+  honeypot: "Strona internetowa",
   submit: "Wyślij wiadomość",
   sending: "Wysyłanie…",
   success: "Dziękuję! Wiadomość dotarła. Odpowiem najszybciej, jak to możliwe.",
@@ -586,6 +615,70 @@ export const legal = {
   /** How long contact-form messages are kept. */
   contactRetention: "do 12 miesięcy od ostatniej wiadomości", // TODO [PLACEHOLDER] confirm
 };
+
+// ---------------------------------------------------------------------
+// Interface wording (screen-reader labels, badges, the language switch)
+// ---------------------------------------------------------------------
+
+export const ui = {
+  skipToContent: "Przejdź do treści",
+  /** Read after the logo, e.g. "MS Fit Coaching – strona główna". */
+  homeLabel: "Coaching – strona główna",
+  mainNav: "Główna nawigacja",
+  mobileNav: "Menu mobilne",
+  openMenu: "Otwórz menu",
+  closeMenu: "Zamknij menu",
+  newTab: "(otwiera się w nowej karcie)",
+  onInstagram: "na Instagramie",
+  price: "Cena",
+  or: "lub",
+  before: "Przed",
+  after: "Po",
+  quote: { open: "„", close: "”" },
+  chartLegend: "Legenda",
+  placeholder: "Przykładowa treść – do podmiany",
+  /** Link to the same page in the other language. */
+  languageSwitch: { short: "EN", label: "English version", href: "/en", lang: "en" as Locale },
+};
+
+/** Wording for the structured data (schema.org) on the main page. */
+export const schema = {
+  catalogName: "Współpraca i produkty",
+  serviceType: "Trening personalny i dieta online",
+};
+
+// ---------------------------------------------------------------------
+// The main page, in Polish
+//
+// Everything the main page's components read, bundled for one language.
+// lib/data-en.ts has the English bundle with exactly the same shape, so a
+// missing translation is a TypeScript error rather than a gap on the page.
+// ---------------------------------------------------------------------
+
+export const pl = {
+  lang: "pl" as Locale,
+  home,
+  ids,
+  site,
+  applyCta,
+  nav,
+  hero,
+  problem,
+  about,
+  howIWork,
+  offers,
+  transformations,
+  testimonials,
+  products,
+  faq,
+  finalCta,
+  contactForm,
+  footer,
+  ui,
+  schema,
+};
+
+export type Content = typeof pl;
 
 // ---------------------------------------------------------------------
 // Demo page (/demo)

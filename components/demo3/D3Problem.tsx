@@ -32,7 +32,7 @@ export function D3Problem() {
 
         <div className="lg:col-span-7 lg:pt-3">
           <div className="lg:sticky lg:top-28">
-            <YoyoChart tone="poster" />
+            <YoyoChart chart={problem.chart} tone="poster" />
           </div>
         </div>
       </div>

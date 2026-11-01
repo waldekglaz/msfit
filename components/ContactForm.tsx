@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState, type FormEvent } from "react";
-import type { contactForm as ContactCopy } from "@/lib/data";
+import type { contactForm as ContactCopy, Locale } from "@/lib/data";
 
 type Copy = typeof ContactCopy;
 type Field = "name" | "email" | "message" | "consent";
@@ -40,9 +40,15 @@ const tones = {
   },
 };
 
-type Props = { copy: Copy; email: string; tone?: keyof typeof tones };
+type Props = {
+  copy: Copy;
+  email: string;
+  tone?: keyof typeof tones;
+  /** Page language, passed on to the email so Marta knows how to reply. */
+  lang?: Locale;
+};
 
-export function ContactForm({ copy, email, tone = "light" }: Props) {
+export function ContactForm({ copy, email, tone = "light", lang = "pl" }: Props) {
   const t = tones[tone];
   // Bots submit instantly; the API ignores anything sent under ~3 seconds.
   const [loadedAt] = useState(() => Date.now());
@@ -88,6 +94,7 @@ export function ContactForm({ copy, email, tone = "light" }: Props) {
           consent: data.get("consent") === "on",
           website: data.get("website"),
           loadedAt,
+          lang,
         }),
       });
       if (!response.ok) throw new Error(String(response.status));
@@ -176,7 +183,7 @@ export function ContactForm({ copy, email, tone = "light" }: Props) {
 
       {/* Honeypot: hidden from people and assistive tech, tempting for bots. */}
       <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
-        <label htmlFor="contact-website">Strona internetowa</label>
+        <label htmlFor="contact-website">{copy.honeypot}</label>
         <input id="contact-website" name="website" type="text" tabIndex={-1} autoComplete="off" />
       </div>
 
@@ -193,7 +200,7 @@ export function ContactForm({ copy, email, tone = "light" }: Props) {
           />
           <label htmlFor="contact-consent" className={`text-sm leading-relaxed ${t.consent}`}>
             {copy.consent.before}
-            <Link href="/polityka-prywatnosci" className={`font-semibold underline underline-offset-2 ${t.link}`}>
+            <Link href={copy.consent.href} className={`font-semibold underline underline-offset-2 ${t.link}`}>
               {copy.consent.linkLabel}
             </Link>
             {copy.consent.after}

@@ -1,13 +1,15 @@
 import Link from "next/link";
-import { faq } from "@/lib/data";
+import type { Content } from "@/lib/data";
 import { PlusIcon } from "./Icons";
 
-export function Faq() {
+export function Faq({ content }: { content: Content }) {
+  const { faq } = content;
+  const id = content.ids.faq;
   return (
-    <section id="faq" aria-labelledby="faq-title" className="py-20 lg:py-28">
+    <section id={id} aria-labelledby={`${id}-title`} className="py-20 lg:py-28">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <div className="max-w-2xl">
-          <h2 id="faq-title" className="font-expanded text-title font-extrabold">
+          <h2 id={`${id}-title`} className="font-expanded text-title font-extrabold">
             {faq.title}
           </h2>
           <p className="mt-5 text-lg leading-relaxed text-ink-soft">{faq.intro}</p>

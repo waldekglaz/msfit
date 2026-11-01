@@ -1,14 +1,16 @@
 import Image from "next/image";
-import { products } from "@/lib/data";
+import type { Content } from "@/lib/data";
 import { formatPrices } from "@/lib/format";
 import { ButtonLink } from "./ButtonLink";
 
-export function Products() {
+export function Products({ content }: { content: Content }) {
+  const { products, ui } = content;
+  const id = content.ids.products;
   return (
-    <section id="produkty" aria-labelledby="produkty-title" className="bg-sand/45 py-20 lg:py-28">
+    <section id={id} aria-labelledby={`${id}-title`} className="bg-sand/45 py-20 lg:py-28">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <div className="max-w-2xl">
-          <h2 id="produkty-title" className="font-expanded text-title font-extrabold">
+          <h2 id={`${id}-title`} className="font-expanded text-title font-extrabold">
             {products.title}
           </h2>
           <p className="mt-5 text-lg leading-relaxed text-ink-soft">{products.intro}</p>
@@ -16,7 +18,7 @@ export function Products() {
 
         <ul className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {products.items.map((product) => {
-            const [mainPrice, ...otherPrices] = formatPrices(product.price);
+            const [mainPrice, ...otherPrices] = formatPrices(product.price, products.currencyOrder);
             return (
               <li key={product.id}>
                 <article className="flex h-full flex-col overflow-hidden rounded-[1.75rem] bg-white ring-1 ring-line">
@@ -37,13 +39,15 @@ export function Products() {
                     <p className="mt-2 flex-1 leading-relaxed text-ink-soft">{product.description}</p>
                     <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
                       <p>
-                        <span className="sr-only">Cena: </span>
+                        <span className="sr-only">{ui.price}: </span>
                         <span className="font-semi-expanded text-2xl font-extrabold">{mainPrice}</span>
                         {otherPrices.length > 0 && (
-                          <span className="ml-2 text-ink-soft">lub {otherPrices.join(" lub ")}</span>
+                          <span className="ml-2 text-ink-soft">
+                            {ui.or} {otherPrices.join(` ${ui.or} `)}
+                          </span>
                         )}
                       </p>
-                      <ButtonLink href={product.checkoutUrl} external srLabel={product.title}>
+                      <ButtonLink href={product.checkoutUrl} external newTabLabel={ui.newTab} srLabel={product.title}>
                         {products.buyLabel}
                       </ButtonLink>
                     </div>

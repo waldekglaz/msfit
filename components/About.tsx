@@ -1,10 +1,12 @@
 import Image from "next/image";
-import { about, site } from "@/lib/data";
+import type { Content } from "@/lib/data";
 import { CheckIcon, InstagramIcon } from "./Icons";
 
-export function About() {
+export function About({ content }: { content: Content }) {
+  const { about, site, ui } = content;
+  const id = content.ids.about;
   return (
-    <section id="o-mnie" aria-labelledby="o-mnie-title" className="py-20 lg:py-28">
+    <section id={id} aria-labelledby={`${id}-title`} className="py-20 lg:py-28">
       <div className="mx-auto grid max-w-6xl gap-12 px-5 sm:px-8 lg:grid-cols-12 lg:gap-16">
         <div className="relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden rounded-[2rem] bg-sand sm:max-w-md lg:col-span-5 lg:max-w-none">
           <Image
@@ -17,7 +19,7 @@ export function About() {
         </div>
 
         <div className="lg:col-span-7 lg:pt-6">
-          <h2 id="o-mnie-title" className="font-expanded text-title font-extrabold">
+          <h2 id={`${id}-title`} className="font-expanded text-title font-extrabold">
             {about.title}
           </h2>
           <div className="mt-6 max-w-prose space-y-4 text-lg leading-relaxed text-ink-soft">
@@ -45,7 +47,7 @@ export function About() {
             <InstagramIcon className="h-6 w-6" />
             <span>
               {about.instagramLabel}: {site.instagram.handle}
-              <span className="sr-only"> (otwiera się w nowej karcie)</span>
+              <span className="sr-only"> {ui.newTab}</span>
             </span>
           </a>
         </div>

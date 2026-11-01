@@ -22,12 +22,23 @@ const tones = {
   },
 };
 
-export function StickyCta({ cta, tone = "light" }: { cta: Link; tone?: keyof typeof tones }) {
+// Text comes in as props (not imported from lib/data) so the content file
+// stays out of the browser bundle.
+type Props = {
+  cta: Link;
+  tone?: keyof typeof tones;
+  /** Id of the contact section the bar hides for. */
+  contactId: string;
+  /** What screen readers hear after the label, in the page's language. */
+  newTabLabel: string;
+};
+
+export function StickyCta({ cta, tone = "light", contactId, newTabLabel }: Props) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const hero = document.getElementById("start");
-    const contact = document.getElementById("kontakt");
+    const contact = document.getElementById(contactId);
     if (!hero || !("IntersectionObserver" in window)) {
       setVisible(true);
       return;
@@ -40,7 +51,7 @@ export function StickyCta({ cta, tone = "light" }: { cta: Link; tone?: keyof typ
     observer.observe(hero);
     if (contact) observer.observe(contact);
     return () => observer.disconnect();
-  }, []);
+  }, [contactId]);
 
   return (
     <div
@@ -57,7 +68,7 @@ export function StickyCta({ cta, tone = "light" }: { cta: Link; tone?: keyof typ
       >
         {cta.label}
         <ExternalIcon className="h-4 w-4" />
-        <span className="sr-only"> (otwiera się w nowej karcie)</span>
+        <span className="sr-only"> {newTabLabel}</span>
       </a>
     </div>
   );

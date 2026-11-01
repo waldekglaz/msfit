@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
-import { contactForm, site } from "@/lib/data";
+import { pl, site } from "@/lib/data";
+import { en } from "@/lib/data-en";
 
 // =====================================================================
 // Contact form → email to Marta via Resend (https://resend.com).
@@ -15,7 +16,7 @@ import { contactForm, site } from "@/lib/data";
 // silently.
 // =====================================================================
 
-const { limits } = contactForm;
+const { limits } = pl.contactForm;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MIN_FILL_TIME_MS = 3000;
 
@@ -43,30 +44,35 @@ export async function POST(request: Request) {
   }
 
   // ---- Validation ----
+  // Errors come back in the language of the page the form was sent from.
+  const page = body.lang === "en" ? en : pl;
+  const { errors } = page.contactForm;
   // Line breaks are stripped from the name because it goes into the subject.
   const name = text("name").replace(/[\r\n]+/g, " ");
   const email = text("email");
   const message = text("message");
 
   if (!name) {
-    return fail(contactForm.errors.name, 400);
+    return fail(errors.name, 400);
   }
   if (!EMAIL_PATTERN.test(email) || email.length > limits.email) {
-    return fail(contactForm.errors.email, 400);
+    return fail(errors.email, 400);
   }
   if (message.length < limits.messageMin) {
-    return fail(contactForm.errors.message, 400);
+    return fail(errors.message, 400);
   }
   if (name.length > limits.name || message.length > limits.message) {
-    return fail(contactForm.errors.tooLong, 400);
+    return fail(errors.tooLong, 400);
   }
   if (body.consent !== true) {
-    return fail(contactForm.errors.consent, 400);
+    return fail(errors.consent, 400);
   }
 
+  // The email to Marta stays in Polish; it only notes which page was used.
   const content = [
     `Imię: ${name}`,
     `E-mail: ${email}`,
+    `Wersja strony: ${page === en ? "angielska (odpowiedz po angielsku)" : "polska"}`,
     `Zgoda na przetwarzanie danych: tak (${new Date().toISOString()})`,
     "",
     message,

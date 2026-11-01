@@ -1,8 +1,9 @@
 import Image from "next/image";
-import { hero } from "@/lib/data";
+import type { Content } from "@/lib/data";
 import { ButtonLink } from "./ButtonLink";
 
-export function Hero() {
+export function Hero({ content }: { content: Content }) {
+  const { hero, ui } = content;
   return (
     <section id="start" aria-labelledby="hero-title" className="overflow-hidden">
       <div className="mx-auto grid max-w-6xl gap-12 px-5 pb-16 pt-10 sm:px-8 sm:pt-14 lg:grid-cols-12 lg:items-center lg:gap-10 lg:pb-24 lg:pt-16">
@@ -18,7 +19,7 @@ export function Hero() {
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-            <ButtonLink href={hero.primaryCta.href} external>
+            <ButtonLink href={hero.primaryCta.href} external newTabLabel={ui.newTab}>
               {hero.primaryCta.label}
             </ButtonLink>
             <ButtonLink href={hero.secondaryCta.href} variant="secondary">

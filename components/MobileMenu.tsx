@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { Link } from "@/lib/data";
+import type { Content, Link } from "@/lib/data";
 import { ButtonLink } from "./ButtonLink";
 import { CloseIcon, MenuIcon } from "./Icons";
 
-export function MobileMenu({ nav, cta }: { nav: Link[]; cta: Link }) {
+export function MobileMenu({ nav, cta, ui }: { nav: Link[]; cta: Link; ui: Content["ui"] }) {
   const [open, setOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -31,7 +31,7 @@ export function MobileMenu({ nav, cta }: { nav: Link[]; cta: Link }) {
         onClick={() => setOpen((value) => !value)}
         className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-line bg-white"
       >
-        <span className="sr-only">{open ? "Zamknij menu" : "Otwórz menu"}</span>
+        <span className="sr-only">{open ? ui.closeMenu : ui.openMenu}</span>
         {open ? <CloseIcon className="h-5 w-5" /> : <MenuIcon className="h-5 w-5" />}
       </button>
 
@@ -40,7 +40,7 @@ export function MobileMenu({ nav, cta }: { nav: Link[]; cta: Link }) {
         hidden={!open}
         className="absolute inset-x-0 top-full border-b border-line bg-porcelain px-5 pb-6 pt-2 shadow-[0_24px_40px_-24px_rgba(35,31,32,0.35)] sm:px-8"
       >
-        <nav aria-label="Menu mobilne">
+        <nav aria-label={ui.mobileNav}>
           <ul className="divide-y divide-line">
             {nav.map((item) => (
               <li key={item.href}>
@@ -55,7 +55,7 @@ export function MobileMenu({ nav, cta }: { nav: Link[]; cta: Link }) {
             ))}
           </ul>
         </nav>
-        <ButtonLink href={cta.href} external className="mt-4 w-full">
+        <ButtonLink href={cta.href} external newTabLabel={ui.newTab} className="mt-4 w-full">
           {cta.label}
         </ButtonLink>
       </div>

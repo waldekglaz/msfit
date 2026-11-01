@@ -1,7 +1,8 @@
 # MS Fit Coaching: landing page
 
 A one-page site for **Marta Sim / MS Fit Coaching**, an online personal trainer working with
-Polish-speaking women in the UK and Poland. All copy is in Polish.
+Polish-speaking women in the UK and Poland. The site is in Polish; `/en` is a demo English
+translation of the main page (see "English version").
 
 - Next.js 14 (App Router), TypeScript, Tailwind CSS 3, React Server Components by default
 - No UI libraries. Icons are small inline SVGs (`components/Icons.tsx`)
@@ -29,27 +30,35 @@ Node 20 or newer is required (the Resend SDK needs it).
 ## Project structure
 
 ```
-app/
-  layout.tsx                 <html lang="pl">, metadata, Analytics (shared by every route)
-  (site)/                    the main site (route group: doesn't change URLs)
-    layout.tsx               Archivo font, header, footer
-    page.tsx                 the landing page (section order lives here)
-    polityka-prywatnosci/    privacy policy (template)
-    regulamin/               terms for digital products (template)
-  demo/                      /demo: editorial redesign (own fonts, header, footer)
-  demo-2/                    /demo-2: poster-campaign redesign (own fonts, header, footer)
-  demo-3/                    /demo-3: main-page content in the /demo-2 poster style
-  not-found.tsx              404 page
+app/                         route groups in (brackets) don't change URLs
+  (pl)/                      everything in Polish
+    layout.tsx               root layout: <html lang="pl">, metadata, Analytics
+    (site)/                  the main site
+      layout.tsx             header and footer (SiteShell)
+      page.tsx               the landing page
+      polityka-prywatnosci/  privacy policy (template)
+      regulamin/             terms for digital products (template)
+    demo/                    /demo: editorial redesign (own fonts, header, footer)
+    demo-2/                  /demo-2: poster-campaign redesign (own fonts, header, footer)
+    demo-3/                  /demo-3: main-page content in the /demo-2 poster style
+    not-found.tsx            404 page
+    [...missing]/            sends unknown addresses to the 404 page (see "English version")
+  (en)/                      the English main page
+    layout.tsx               root layout: <html lang="en">, header and footer
+    en/page.tsx              /en
   globals.css                base styles, focus rings, legal text styles, animations
   api/contact/route.ts       contact form endpoint (Resend)
   sitemap.ts, robots.ts      SEO files, built from site.url
   icon.svg                   favicon
 components/                  one file per section + small shared pieces
+  HomePage.tsx               the main page in either language (section order lives here)
+  SiteShell.tsx              Archivo font, header, footer
   demo/                      sections of the /demo page
   demo2/                     poster sections (shared by /demo-2 and /demo-3)
   demo3/                     sections only /demo-3 needs
 lib/
   data.ts                    ALL text, links, prices, products, FAQ, legal/business info
+  data-en.ts                 the main page's text in English (photos, prices, links from data.ts)
   fonts.ts                   main-site font (Archivo)
   fonts-poster.ts            poster fonts for /demo-2 and /demo-3
   metadata.ts                per-page SEO/OpenGraph helper
@@ -143,6 +152,47 @@ same working contact form, but black, hot pink, Abril Fatface headlines and dram
 - `noindex, nofollow`, not in the sitemap; the footer links back to `/`, `/demo` and `/demo-2`.
 - Lighthouse (local, simulated mobile): Performance 97, Accessibility 100, Best Practices 96
   (the local-only Vercel Analytics 404), SEO 69 only because of the intentional `noindex`.
+
+## English version (`/en`)
+
+A demo English translation of the main page, for showing what a second language would look
+like. Same components, layout and contact form as `/`; only the words change.
+
+- **Copy:** `lib/data-en.ts`. It has exactly the same shape as the Polish bundle (`pl` at the
+  end of the main-site part of `lib/data.ts`) and is typed against it, so a field added to the
+  Polish page without an English version fails `npm run build`. Photos, prices, checkout links
+  and the application link are taken from `lib/data.ts`, so they never drift apart.
+- **How it's wired:** components get their text as a `content` prop (`pl` or `en`) instead of
+  importing it. Each language has its own root layout (`app/(pl)`, `app/(en)`), because only
+  a root layout can set `<html lang>`. Section anchors are translated too (`/en#about`).
+- **Switching language:** "EN" / "PL" next to the menu button and "English version" /
+  "Wersja polska" in the footer, both marked with `lang`/`hreflang`. There is deliberately **no
+  automatic redirect by browser language**: many of Marta's Polish clients in the UK have phones
+  set to English and would be sent to the wrong version.
+- **Still in Polish, and labelled so on the English page:** the legal pages, the PDF products
+  ("PDF e-book · in Polish"), and Marta's Instagram. The application form on onlinecoaching.io
+  is whatever language Marta set up there. Testimonial and transformation quotes say they are
+  translated from Polish.
+- **Prices** show pounds first on `/en` (`products.currencyOrder`).
+- **Contact form:** errors appear in English, and the email to Marta says the message came from
+  the English page.
+- **404 page:** with two root layouts there is no `app/layout.tsx`, and Next.js 14 then refuses a
+  top-level `app/not-found.tsx`. `app/(pl)/[...missing]` catches unknown addresses instead. The
+  status is a proper 404, but the page's content is drawn by the browser rather than sent in the
+  HTML (a Next.js 14 limitation of `notFound()`), so it appears a moment after load.
+- It is `noindex, nofollow` and not in the sitemap, because the translation hasn't been
+  reviewed. Lighthouse (local, simulated mobile): Performance 94, Accessibility 100, Best
+  Practices 96 (the local-only Vercel Analytics 404), SEO 69 only because of the `noindex`.
+
+**To make `/en` a real, indexed page:**
+
+1. Have Marta (and ideally a native speaker) review `lib/data-en.ts`. Some lines speak to Polish
+   women abroad ("what life is like for Polish women abroad"); decide whether that stays.
+2. Remove the `robots` line in `app/(en)/en/page.tsx` and add `/en` to `app/sitemap.ts`.
+3. Add hreflang alternates to both home pages' metadata:
+   `alternates: { canonical, languages: { pl: "/", en: "/en", "x-default": "/" } }`.
+4. Optionally translate the legal pages (`/en/privacy-policy`, `/en/terms`) and point the
+   English footer, FAQ and consent links at them.
 ---
 
 ## Editing content (`lib/data.ts`)
@@ -168,6 +218,12 @@ Everything visible on the site comes from `lib/data.ts`. Each export matches a s
 | `footer`          | Tagline, health disclaimer, legal links                       |
 | `business`        | Legal name, address, ICO number, VAT note, payment provider   |
 | `legal`           | Template flag, last-updated date, data processors, retention  |
+| `ids`             | Section anchors on the main page (`#o-mnie`, `#kontakt`…)      |
+| `ui`              | Screen-reader labels, "Przed"/"Po", badge text, the EN switch |
+| `schema`          | Wording for the structured data (JSON-LD)                     |
+
+The English page's text is in `lib/data-en.ts`, with the same names. When you change Polish
+copy on the main page, change the English line too (or ask for it to be translated).
 
 Tips:
 
@@ -178,7 +234,7 @@ Tips:
 - Adding a testimonial, transformation, product or FAQ is just adding an object to the array.
   Layouts adapt to any count.
 - Keep the copy free of guaranteed results or specific weight-loss numbers ("schudniesz 10 kg").
-- To reorder or remove sections, edit `app/page.tsx`.
+- To reorder or remove sections, edit `components/HomePage.tsx` (both languages follow).
 
 ---
 
@@ -308,6 +364,7 @@ Local production build (`next start`), Lighthouse 12, simulated mobile:
 | Page         | Performance | Accessibility | Best Practices | SEO |
 | ------------ | ----------- | ------------- | -------------- | --- |
 | `/`          | 94–97       | 100           | 96*            | 100 |
+| `/en`        | 94          | 100           | 96*            | 69 (`noindex` on purpose) |
 | `/regulamin` | 96          | 100           | 96*            | 100 |
 
 \* The only deduction is a console 404 for `/_vercel/insights/script.js`, a route that exists only
@@ -346,6 +403,8 @@ mobile menu, form validation messages announced to screen readers, API validatio
 - [ ] Review all FAQ answers
 - [ ] Transformation quotes + first names for the remaining cards
 - [ ] Real testimonials (quote, first name, city) with permission
+- [ ] If the English page (`/en`) is kept: Marta's review of the translation, and whether she
+      coaches in English and wants English-speaking clients
 
 **Products**
 

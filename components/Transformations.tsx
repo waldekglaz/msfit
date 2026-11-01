@@ -1,16 +1,18 @@
 import Image from "next/image";
-import { transformations } from "@/lib/data";
+import type { Content } from "@/lib/data";
 import { InfoIcon } from "./Icons";
 import { PlaceholderBadge } from "./PlaceholderBadge";
 
 const photoSizes = "(min-width: 1024px) 17rem, (min-width: 768px) 22vw, 45vw";
 
-export function Transformations() {
+export function Transformations({ content }: { content: Content }) {
+  const { transformations, ui } = content;
+  const id = content.ids.transformations;
   return (
-    <section id="metamorfozy" aria-labelledby="metamorfozy-title" className="py-20 lg:py-28">
+    <section id={id} aria-labelledby={`${id}-title`} className="py-20 lg:py-28">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <div className="max-w-2xl">
-          <h2 id="metamorfozy-title" className="font-expanded text-title font-extrabold">
+          <h2 id={`${id}-title`} className="font-expanded text-title font-extrabold">
             {transformations.title}
           </h2>
           <p className="mt-5 text-lg leading-relaxed text-ink-soft">{transformations.intro}</p>
@@ -28,13 +30,13 @@ export function Transformations() {
                   <figure className="relative aspect-[3/4] overflow-hidden rounded-[1.25rem] bg-sand">
                     <Image src={item.before.src} alt={item.before.alt} fill sizes={photoSizes} className="object-cover" />
                     <figcaption className="absolute left-2 top-2 rounded-full bg-ink px-3 py-1 text-xs font-semibold text-white">
-                      Przed
+                      {ui.before}
                     </figcaption>
                   </figure>
                   <figure className="relative aspect-[3/4] overflow-hidden rounded-[1.25rem] bg-sand">
                     <Image src={item.after.src} alt={item.after.alt} fill sizes={photoSizes} className="object-cover" />
                     <figcaption className="absolute left-2 top-2 rounded-full bg-accent px-3 py-1 text-xs font-semibold text-white">
-                      Po
+                      {ui.after}
                     </figcaption>
                   </figure>
                 </div>
@@ -42,12 +44,16 @@ export function Transformations() {
                   <h3 className="font-semi-expanded text-xl font-bold">{item.name}</h3>
                   {item.quote ? (
                     <blockquote className="mt-2 flex-1 leading-relaxed text-ink-soft">
-                      <p>„{item.quote}”</p>
+                      <p>
+                        {ui.quote.open}
+                        {item.quote}
+                        {ui.quote.close}
+                      </p>
                     </blockquote>
                   ) : (
                     <p className="mt-2 flex-1 leading-relaxed text-ink-soft">{item.description}</p>
                   )}
-                  {item.placeholder && <PlaceholderBadge className="mt-4 self-start" />}
+                  {item.placeholder && <PlaceholderBadge label={ui.placeholder} className="mt-4 self-start" />}
                 </div>
               </article>
             </li>

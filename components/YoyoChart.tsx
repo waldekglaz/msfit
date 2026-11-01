@@ -1,4 +1,4 @@
-import { problem } from "@/lib/data";
+import { ui, type Content } from "@/lib/data";
 
 // Illustrative chart (no numbers): a yo-yo diet's swings versus a steady,
 // tailored plan. Purely visual; the description is read to screen readers.
@@ -29,8 +29,13 @@ const tones = {
   },
 };
 
-export function YoyoChart({ tone = "light" }: { tone?: keyof typeof tones }) {
-  const { chart } = problem;
+type Props = {
+  chart: Content["problem"]["chart"];
+  legendLabel?: string;
+  tone?: keyof typeof tones;
+};
+
+export function YoyoChart({ chart, legendLabel = ui.chartLegend, tone = "light" }: Props) {
   const t = tones[tone];
   return (
     <figure className={t.figure}>
@@ -74,7 +79,7 @@ export function YoyoChart({ tone = "light" }: { tone?: keyof typeof tones }) {
         <circle cx="40" cy="70" r="6" fill={t.steady} />
       </svg>
 
-      <ul className="mt-6 flex flex-wrap gap-x-8 gap-y-3 text-[0.95rem]" aria-label="Legenda">
+      <ul className="mt-6 flex flex-wrap gap-x-8 gap-y-3 text-[0.95rem]" aria-label={legendLabel}>
         <li className="flex items-center gap-3">
           <svg width="36" height="8" aria-hidden="true">
             <path d="M2 4h32" stroke={t.yoyo} strokeWidth="3" strokeDasharray="6 6" strokeLinecap="round" />
