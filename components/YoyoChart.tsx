@@ -7,7 +7,7 @@ const yoyoPath =
 const steadyPath =
   "M40 70 C 120 78, 170 150, 250 186 S 380 214, 452 212";
 
-// Main site (inside the dark "Znasz to?" section) and the poster demos.
+// Main site (inside the dark "Znasz to?" section) and /demo-3.
 const tones = {
   light: {
     figure: "rounded-[2rem] bg-ink-raised p-6 sm:p-10",
@@ -21,10 +21,10 @@ const tones = {
   poster: {
     figure: "rounded-[6px] border border-white/10 bg-poster-ink p-6 sm:p-10",
     title: "font-poster text-2xl sm:text-3xl",
-    axis: "#4A4A55",
-    label: "#A5A5A5",
-    yoyo: "#8A8A93",
-    steady: "#F12A98",
+    axis: "#4D4D4D",
+    label: "#A8A8A8",
+    yoyo: "#8C8C8C",
+    steady: "#C62B6E",
     caption: "text-poster-grey",
   },
 };

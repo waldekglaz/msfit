@@ -29,7 +29,7 @@ export function Pink({ text, words, className = "text-poster-pink" }: { text: st
 }
 
 const buttonVariants = {
-  solid: "bg-poster-pink text-poster-black hover:bg-poster-bright",
+  solid: "bg-poster-pink text-poster-on-pink hover:bg-poster-pink-hover",
   outline: "border border-white/70 text-white hover:border-poster-bright hover:text-poster-bright",
 };
 

@@ -35,7 +35,7 @@ const tones = {
     checkbox: "accent-poster-pink",
     consent: "text-poster-grey",
     link: "text-poster-bright",
-    submit: "rounded-[4px] bg-poster-pink text-poster-black hover:bg-poster-bright",
+    submit: "rounded-[4px] bg-poster-pink text-poster-on-pink hover:bg-poster-pink-hover",
     status: "rounded-[4px] border border-poster-pink/40 bg-poster-black text-white",
   },
 };

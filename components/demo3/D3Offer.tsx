@@ -14,7 +14,7 @@ export function D3Offer() {
         >
           <div className="lg:col-span-5">
             <h3 className="font-poster text-[clamp(2rem,3.6vw,3.25rem)] leading-[1.02]">
-              <Pink text={offer.title} words={demo3.pink.offer} className="text-poster-bright" />
+              <Pink text={offer.title} words={demo3.pink.offer} />
             </h3>
             <p className="mt-5 text-lg leading-relaxed text-poster-grey">{offer.text}</p>
             <PButton href={offer.cta.href} external className="mt-9 w-full sm:w-auto">
@@ -24,7 +24,7 @@ export function D3Offer() {
           <ul className="self-center border-b border-white/10 lg:col-span-7">
             {offer.includes.map((item) => (
               <li key={item} className="flex gap-4 border-t border-white/10 py-4 text-lg">
-                <CheckIcon className="mt-1 h-5 w-5 shrink-0 text-poster-bright" />
+                <CheckIcon className="mt-1 h-5 w-5 shrink-0 text-poster-pink" />
                 <span>{item}</span>
               </li>
             ))}

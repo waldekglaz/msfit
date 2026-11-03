@@ -40,7 +40,7 @@ app/                         route groups in (brackets) don't change URLs
       regulamin/             terms for digital products (template)
     demo/                    /demo: editorial redesign (own fonts, header, footer)
     demo-2/                  /demo-2: poster-campaign redesign (own fonts, header, footer)
-    demo-3/                  /demo-3: main-page content in the /demo-2 poster style
+    demo-3/                  /demo-3: main-page content in the /demo-2 layout, Anton + Poppins
     not-found.tsx            404 page
     [...missing]/            sends unknown addresses to the 404 page (see "English version")
   (en)/                      the English main page
@@ -61,7 +61,8 @@ lib/
   data.ts                    ALL text, links, prices, products, FAQ, legal/business info
   data-en.ts                 the main page's text in English (photos, prices, links from data.ts)
   fonts.ts                   main-site font (Archivo)
-  fonts-poster.ts            poster fonts for /demo-2 and /demo-3
+  fonts-poster.ts            poster fonts for /demo-2 (Abril Fatface, DM Sans)
+  fonts-demo3.ts             fonts for /demo-3 (Anton, Poppins)
   metadata.ts                per-page SEO/OpenGraph helper
   format.ts                  price formatting (PLN / GBP)
 public/images/               photos (some interim, see "Swapping images")
@@ -109,7 +110,7 @@ and move more. Art direction: a premium editorial fitness campaign.
 A third design, built to look like the same campaign as Marta's "Otwieram 3 wolne miejsca na
 listopad" Instagram poster. Same content as `/demo`, completely different art direction.
 
-- **Palette** (`poster` in `tailwind.config.ts`): black `#050505`, almost-black `#101014`,
+- **Palette** (`poster` in `tailwind.config.ts`, values in `app/globals.css`): black `#050505`, almost-black `#101014`,
   charcoal `#1C1C22`, hot pink `#F12A98`, bright pink `#FF39A6`, grey `#A5A5A5`, plus a dark
   wine glow. Pink buttons use black text (white on pink fails contrast); small pink text on
   charcoal uses the brighter pink.
@@ -134,16 +135,28 @@ listopad" Instagram poster. Same content as `/demo`, completely different art di
 
 ## Demo 3 (`/demo-3`)
 
-The main page (`/`) rebuilt in the `/demo-2` poster style: same content, same section order,
-same working contact form, but black, hot pink, Abril Fatface headlines and dramatic photos.
+The main page (`/`) rebuilt with the `/demo-2` poster layout: same content, same section order,
+same working contact form, but its own fonts and a stricter palette.
 
+- **Fonts:** Anton for headlines, Poppins for everything else (`lib/fonts-demo3.ts`). Only this
+  page downloads them. They fill the same CSS variables as the `/demo-2` fonts, so the shared
+  components need no changes. Anton is much narrower and taller than Abril Fatface, so
+  `.poster-mono` in `app/globals.css` adjusts sizes, tracking and line height for this page, and
+  sets the hero lead in Poppins, since a whole paragraph in Anton is hard to read.
+- **Palette:** only white, black and `#C62B6E`, with their shades. The `poster` colours are CSS
+  variables: `.poster-mono` (set by `components/demo3/D3Root.tsx`) overrides them here. The only
+  shades of the pink are a darker one for button hover (`#A3235A`) and the closing glow
+  (`#320B1C`). Photos and the placeholder images keep their own colours.
+- **Contrast:** white on `#C62B6E` is 5.3:1, black on it only 3.9:1, so buttons use white text. On
+  black the pink is 3.9:1, which passes only for large text, icons and rules, so small links and
+  form errors are white rather than pink.
 - **Content:** read straight from the main-site data in `lib/data.ts` (`hero`, `problem`,
   `about`, `howIWork`, `offers`, `transformations`, `testimonials`, `products`, `faq`,
   `finalCta`, `contactForm`), so editing the main page updates this one too. Only the poster
   line breaks of the hero headline and the words shown in pink live in `demo3`.
 - **Shared with `/demo-2`:** header, hero, stats strip, steps, FAQ and footer come from
-  `components/demo2/` and take their content as props; both pages use `PosterRoot` and
-  `lib/fonts-poster.ts`.
+  `components/demo2/` and take their content as props. Anything added to them shows up on both
+  pages, in each page's own fonts and colours.
 - **Shared with the main site:** the contact form, the yo-yo chart and the "Przykładowa treść"
   badge are the same components with a dark `tone`, so validation, the honeypot, the API call
   and the screen-reader behaviour are identical.
@@ -151,7 +164,7 @@ same working contact form, but black, hot pink, Abril Fatface headlines and dram
   the closing section pairs the big question with the contact form on a wine glow.
 - Placeholder testimonials and transformations keep their visible badge, as on the main page.
 - `noindex, nofollow`, not in the sitemap; the footer links back to `/`, `/demo` and `/demo-2`.
-- Lighthouse (local, simulated mobile): Performance 97, Accessibility 100, Best Practices 96
+- Lighthouse (local, simulated mobile): Performance 96–97, Accessibility 100, Best Practices 96
   (the local-only Vercel Analytics 404), SEO 69 only because of the intentional `noindex`.
 
 ## English version (`/en`)

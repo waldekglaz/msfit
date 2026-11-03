@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { PosterRoot } from "@/components/demo2/PosterRoot";
+import { D3Root } from "@/components/demo3/D3Root";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = {
@@ -13,5 +13,5 @@ export const viewport: Viewport = {
 };
 
 export default function PosterMainLayout({ children }: { children: React.ReactNode }) {
-  return <PosterRoot>{children}</PosterRoot>;
+  return <D3Root>{children}</D3Root>;
 }

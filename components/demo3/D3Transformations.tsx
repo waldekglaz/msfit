@@ -36,7 +36,7 @@ export function D3Transformations() {
                   </figure>
                   <figure className="relative aspect-[3/4] overflow-hidden rounded-[3px] bg-poster-charcoal">
                     <Image src={item.after.src} alt={item.after.alt} fill sizes={photoSizes} className="object-cover" />
-                    <figcaption className="absolute left-0 top-0 bg-poster-pink px-3 py-1.5 text-xs font-bold text-poster-black">
+                    <figcaption className="absolute left-0 top-0 bg-poster-pink px-3 py-1.5 text-xs font-bold text-poster-on-pink">
                       Po
                     </figcaption>
                   </figure>

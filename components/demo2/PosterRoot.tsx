@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { posterSans, posterSerif } from "@/lib/fonts-poster";
 
-/** Page wrapper for the poster-styled demos: fonts, colours and theme hooks. */
+/** Page wrapper for /demo-2: fonts, colours and theme hooks. /demo-3 has its own (D3Root). */
 export function PosterRoot({ children }: { children: ReactNode }) {
   return (
     <div

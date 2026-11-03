@@ -11,7 +11,7 @@ export function PosterFooter({ cta, backLinks }: Props) {
     // Bottom padding on phones keeps the sticky CTA from covering the footer.
     <footer className="overflow-hidden border-t border-white/10 bg-poster-black pb-28 md:pb-10">
       <div className={`${wrap} pt-16 sm:pt-20`}>
-        <p aria-hidden="true" className="select-none whitespace-nowrap font-poster text-[26vw] leading-[0.8] tracking-[-0.05em] lg:text-[17rem]">
+        <p aria-hidden="true" className="poster-wordmark select-none whitespace-nowrap font-poster text-[26vw] leading-[0.8] tracking-[-0.05em] lg:text-[17rem]">
           MS Fit<span className="text-poster-pink">.</span>
         </p>
 

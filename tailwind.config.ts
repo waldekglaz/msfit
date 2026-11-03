@@ -42,20 +42,33 @@ const config: Config = {
           "rose-deep": "#94505D",
           "rose-light": "#E3B9BC",
         },
-        // /demo-2 poster palette (from Marta's "3 wolne miejsca" graphic).
+        // Poster palette, shared by /demo-2 and /demo-3. The values are CSS
+        // variables in app/globals.css: /demo-3 swaps them with .poster-mono.
+        //
+        // /demo-2 (from Marta's "3 wolne miejsca" graphic):
         //   pink on black 5.4:1   pink on ink 5.0:1   bright on charcoal 5.2:1
         //   black on pink 5.4:1   grey on charcoal 6.9:1
         //   pink on charcoal is 4.5:1 only at large sizes; small pink text on
         //   charcoal uses `bright`. White on pink is 3.8:1, so buttons use black text.
+        //
+        // /demo-3 (white, black and #C62B6E):
+        //   white on pink 5.3:1   grey on charcoal 6.9:1   grey on ink 7.9:1
+        //   pink on black 3.9:1   pink on ink 3.6:1   pink on charcoal 3.2:1
+        //   Pink passes only for large text, icons and rules, so `bright` is white
+        //   there (small links) and buttons use white text.
         poster: {
-          black: "#050505",
-          ink: "#101014",
-          charcoal: "#1C1C22",
-          line: "#2A2A32",
-          pink: "#F12A98",
-          bright: "#FF39A6",
-          wine: "#3B0D26",
-          grey: "#A5A5A5",
+          black: "rgb(var(--poster-black) / <alpha-value>)",
+          ink: "rgb(var(--poster-ink) / <alpha-value>)",
+          charcoal: "rgb(var(--poster-charcoal) / <alpha-value>)",
+          line: "rgb(var(--poster-line) / <alpha-value>)",
+          pink: "rgb(var(--poster-pink) / <alpha-value>)",
+          /** Hover colour of pink buttons. */
+          "pink-hover": "rgb(var(--poster-pink-hover) / <alpha-value>)",
+          /** Text on a pink background. */
+          "on-pink": "rgb(var(--poster-on-pink) / <alpha-value>)",
+          bright: "rgb(var(--poster-bright) / <alpha-value>)",
+          wine: "rgb(var(--poster-wine) / <alpha-value>)",
+          grey: "rgb(var(--poster-grey) / <alpha-value>)",
         },
       },
       fontFamily: {
@@ -63,7 +76,8 @@ const config: Config = {
         // /demo only (loaded in app/demo/layout.tsx): Bodoni Moda + Jost
         display: ["var(--font-demo-serif)", "Didot", "Georgia", "serif"],
         demo: ["var(--font-demo-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
-        // /demo-2 only (loaded in app/demo-2/layout.tsx): Abril Fatface + DM Sans
+        // Poster demos: /demo-2 sets these variables to Abril Fatface + DM Sans
+        // (lib/fonts-poster.ts), /demo-3 to Anton + Poppins (lib/fonts-demo3.ts).
         poster: ["var(--font-poster-serif)", "Georgia", "serif"],
         "poster-sans": ["var(--font-poster-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
       },

@@ -53,12 +53,85 @@
     overflow: hidden;
   }
 
-  /* /demo-2 poster theme */
+  /* Poster palette, as space-separated RGB for Tailwind's opacity modifiers.
+     These are /demo-2's colours; .poster-mono swaps them on /demo-3. */
+  :root {
+    --poster-black: 5 5 5;
+    --poster-ink: 16 16 20;
+    --poster-charcoal: 28 28 34;
+    --poster-line: 42 42 50;
+    --poster-pink: 241 42 152;
+    --poster-pink-hover: 255 57 166;
+    --poster-on-pink: 5 5 5;
+    --poster-bright: 255 57 166;
+    --poster-wine: 59 13 38;
+    --poster-grey: 165 165 165;
+  }
+
+  /* /demo-3: only white, black and #C62B6E, and their shades. */
+  .poster-mono {
+    --poster-ink: 17 17 17;
+    --poster-charcoal: 28 28 28;
+    --poster-line: 42 42 42;
+    --poster-pink: 198 43 110; /* #C62B6E */
+    --poster-pink-hover: 163 35 90; /* a darker shade of it */
+    --poster-on-pink: 255 255 255;
+    --poster-bright: 255 255 255; /* small accent text: pink would fail contrast */
+    --poster-wine: 50 11 28; /* #C62B6E at 25%, for the closing glow */
+    --poster-grey: 168 168 168;
+  }
+
+  /* /demo-3 type. The shared components' sizes were set for Abril Fatface; Anton
+     is far narrower and taller, so it gets more size, no tight tracking and more
+     line height (Polish accents touch the line above otherwise). */
+  .poster-mono .font-poster {
+    letter-spacing: 0.01em;
+    line-height: 1.14;
+  }
+
+  /* Limited by screen height too, so the buttons stay in view on laptops. */
+  .poster-mono .text-p-hero {
+    font-size: clamp(3.75rem, min(8.2vw, 9.5vh), 7.75rem);
+    line-height: 1.12;
+  }
+
+  .poster-mono .text-p-mega {
+    font-size: clamp(3.25rem, 6.6vw, 6.5rem);
+  }
+
+  .poster-mono .text-p-h2 {
+    font-size: clamp(2.6rem, 5.2vw, 4.75rem);
+  }
+
+  .poster-mono .text-p-num {
+    line-height: 1;
+  }
+
+  .poster-mono .poster-wordmark {
+    font-size: min(32vw, 28rem);
+    line-height: 1;
+  }
+
+  /* A whole paragraph in Anton is hard to read, so the hero lead is Poppins.
+     Pink at this size fails contrast on black: the phrase is bolder white instead. */
+  .poster-mono .poster-lead {
+    font-family: theme("fontFamily.poster-sans");
+    font-size: clamp(1.125rem, 1.5vw, 1.35rem);
+    letter-spacing: 0;
+    line-height: 1.6;
+  }
+
+  .poster-mono .poster-lead .text-poster-pink {
+    color: theme("colors.white");
+    font-weight: 600;
+  }
+
+  /* Poster demos */
   body:has(.poster-theme) {
     background-color: theme("colors.poster.black");
   }
 
-  /* Abril Fatface ships one (already heavy) weight: never fake a bolder one. */
+  /* Their display fonts ship one (already heavy) weight: never fake a bolder one. */
   .poster-theme .font-poster {
     font-synthesis: none;
   }
@@ -69,7 +142,7 @@
 
   .poster-theme ::selection {
     background-color: theme("colors.poster.pink");
-    color: theme("colors.poster.black");
+    color: theme("colors.poster.on-pink");
   }
 
   .ed-dark :focus-visible {

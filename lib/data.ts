@@ -108,7 +108,8 @@ export const hero = {
   secondaryCta: { label: "Zobacz produkty", href: `#${ids.products}` } satisfies Link,
   stats: [
     // TODO [PLACEHOLDER] confirm the exact "1000+" claim with Marta.
-    { value: "1000+", label: "podopiecznych" },
+    // "­" (soft hyphen): the long word only breaks, with a hyphen, on small phones.
+    { value: "1000+", label: "podopiecz­nych" },
     { value: "Plan", label: "szyty na miarę, nie z szablonu" },
     { value: "Online", label: "wsparcie w UK i w Polsce" },
   ],

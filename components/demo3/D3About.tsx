@@ -48,9 +48,9 @@ export function D3About() {
               href={site.instagram.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-10 inline-flex min-h-12 items-center gap-3 font-semibold text-poster-bright transition-colors hover:text-white"
+              className="mt-10 inline-flex min-h-12 items-center gap-3 font-semibold text-white underline-offset-4 hover:underline"
             >
-              <InstagramIcon className="h-6 w-6" />
+              <InstagramIcon className="h-6 w-6 text-poster-pink" />
               <span>
                 {about.instagramLabel}: {site.instagram.handle}
                 <span className="sr-only"> (otwiera się w nowej karcie)</span>

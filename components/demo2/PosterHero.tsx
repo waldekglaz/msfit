@@ -59,7 +59,7 @@ export function PosterHero({ lines, linesPink, lead, leadPink, primary, secondar
           </h1>
           <div aria-hidden="true" className="p-rule mt-9 h-[3px] w-44 bg-poster-pink" />
 
-          <p className="p-fade mt-8 max-w-[34rem] font-poster text-[clamp(1.4rem,2.3vw,2rem)] leading-[1.22]">
+          <p className="poster-lead p-fade mt-8 max-w-[34rem] font-poster text-[clamp(1.4rem,2.3vw,2rem)] leading-[1.22]">
             <Pink text={lead} words={leadPink} />
           </p>
 

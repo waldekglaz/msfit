@@ -18,7 +18,7 @@ const tones = {
   },
   poster: {
     bar: "border-white/10 bg-poster-black/95",
-    button: "rounded-[4px] bg-poster-pink text-poster-black",
+    button: "rounded-[4px] bg-poster-pink text-poster-on-pink",
   },
 };
 
