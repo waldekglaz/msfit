@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#050505">
+    <link rel="canonical" href="{{ canonical_url }}">
+    {%- if settings.favicon != blank %}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 64, height: 64 }}">
+    {%- endif %}
+
+    <title>
+      {{- page_title -}}
+      {%- if current_page != 1 %} – {{ 'general.page' | t: page: current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} | {{ shop.name }}{% endunless -%}
+    </title>
+    {%- if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {%- endif %}
+
+    {% render 'meta-tags' %}
+    {% render 'fonts' %}
+    {{ 'theme.css' | asset_url | stylesheet_tag }}
+
+    {%- comment -%} The accent colour comes from Theme settings → Colours. {%- endcomment -%}
+    {% style %}
+      :root {
+        --ms-pink: {{ settings.color_accent }};
+        --ms-pink-hover: {{ settings.color_accent | color_darken: 8 }};
+        --ms-glow: {{ settings.color_accent | color_darken: 35 }};
+      }
+    {% endstyle %}
+
+    {{ content_for_header }}
+  </head>
+
+  <body>
+    <a class="ms-skip" href="#MainContent">{{ 'accessibility.skip_to_content' | t }}</a>
+    {% sections 'header-group' %}
+
+    <main id="MainContent" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
+    {% sections 'footer-group' %}
+    <script src="{{ 'theme.js' | asset_url }}" defer></script>
+  </body>
+</html>

@@ -1,0 +1,90 @@
+{%- comment -%}
+  Products from one collection. Used twice on the home page: "Produkty" (paid
+  PDFs) and "Darmowe materiały" (free products, price 0). On the live store
+  the section hides itself while its collection is empty; in the theme editor
+  it shows placeholder cards instead.
+{%- endcomment -%}
+{%- liquid
+  assign collection = section.settings.collection
+  assign count = collection.products_count | default: 0
+  if count > section.settings.limit
+    assign count = section.settings.limit
+  endif
+  assign columns = 'ms-grid'
+  if count >= 3 or count == 0
+    assign columns = 'ms-grid ms-grid--3'
+  endif
+  assign classes = 'ms-section'
+  if section.settings.joined
+    assign classes = 'ms-section ms-section--joined'
+  endif
+-%}
+{%- if count > 0 or request.design_mode -%}
+  <section
+    id="{{ section.settings.anchor | default: section.id }}"
+    class="{{ classes }}"
+    aria-labelledby="Title-{{ section.id }}"
+  >
+    <div class="ms-wrap">
+      <div class="ms-heading">
+        <h2 id="Title-{{ section.id }}" class="ms-display ms-h2">{{ section.settings.title }}</h2>
+        {%- if section.settings.intro != blank -%}
+          <p class="ms-lead ms-heading__intro">{{ section.settings.intro | escape }}</p>
+        {%- endif -%}
+      </div>
+
+      <ul class="{{ columns }}">
+        {%- if count > 0 -%}
+          {%- for product in collection.products limit: count -%}
+            <li>{% render 'product-card', product: product %}</li>
+          {%- endfor -%}
+        {%- else -%}
+          {%- for i in (1..3) -%}
+            <li>{% render 'product-card' %}</li>
+          {%- endfor -%}
+        {%- endif -%}
+      </ul>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Produkty z kolekcji",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Tytuł",
+      "default": "Produkty",
+      "info": "Słowa zaznaczone kursywą są w kolorze akcentu."
+    },
+    { "type": "textarea", "id": "intro", "label": "Wstęp" },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Kolekcja",
+      "info": "Darmowe materiały to produkty z ceną 0. Kolejność ustawisz w kolekcji."
+    },
+    {
+      "type": "range",
+      "id": "limit",
+      "label": "Ile produktów pokazać",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 6
+    },
+    {
+      "type": "checkbox",
+      "id": "joined",
+      "label": "Połącz z sekcją powyżej",
+      "default": false,
+      "info": "Bez odstępu u góry, z linią – dla darmowych materiałów pod produktami."
+    },
+    { "type": "text", "id": "anchor", "label": "Kotwica (id sekcji)" }
+  ],
+  "presets": [{ "name": "Produkty z kolekcji" }]
+}
+{% endschema %}

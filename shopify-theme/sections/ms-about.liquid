@@ -1,0 +1,88 @@
+{%- liquid
+  assign image = section.settings.image
+  assign alt = image.alt | default: section.settings.image_alt
+-%}
+<section id="{{ section.settings.anchor | default: section.id }}" class="ms-about" aria-labelledby="Title-{{ section.id }}">
+  <div class="ms-about__media">
+    {%- if image != blank -%}
+      {{
+        image
+        | image_url: width: 1400
+        | image_tag:
+          loading: 'lazy',
+          sizes: '(min-width: 1024px) 50vw, 100vw',
+          widths: '600, 900, 1200, 1400',
+          alt: alt
+      }}
+    {%- else -%}
+      <img src="{{ 'marta-o-mnie.jpg' | asset_url }}" alt="{{ alt | escape }}" width="640" height="800" loading="lazy">
+    {%- endif -%}
+  </div>
+
+  <div class="ms-about__body">
+    <div>
+      <h2 id="Title-{{ section.id }}" class="ms-display ms-h2">{{ section.settings.title }}</h2>
+      <div class="ms-lead ms-rte">{{ section.settings.text }}</div>
+
+      {%- if section.settings.credentials != blank -%}
+        <h3 class="ms-display ms-h3">{{ section.settings.credentials_title | escape }}</h3>
+        <div class="ms-rte-list ms-about__list">{{ section.settings.credentials }}</div>
+      {%- endif -%}
+
+      {%- if settings.instagram_url != blank and section.settings.instagram_label != blank -%}
+        <a class="ms-icon-link" href="{{ settings.instagram_url | escape }}" target="_blank" rel="noopener">
+          {% render 'icon', name: 'instagram' %}
+          <span>
+            {{- section.settings.instagram_label | escape }}: {{ settings.instagram_handle | escape -}}
+            <span class="ms-visually-hidden"> {{ 'general.new_tab' | t }}</span>
+          </span>
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "O mnie",
+  "tag": "div",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Zdjęcie", "info": "Pionowe, min. 1200 × 1500 px." },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Opis zdjęcia (dla niewidomych)",
+      "default": "Marta Sim na siłowni robi przysiad sumo z hantlami"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Tytuł",
+      "default": "Cześć, jestem <em>Marta</em>",
+      "info": "Słowa zaznaczone kursywą są w kolorze akcentu."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Tekst",
+      "default": "<p>Jestem trenerką personalną i prowadzę online kobiety z Polski i z Wysp. Wiem, jak to jest zaczynać „od poniedziałku” po raz kolejny – i jak wiele zmienia plan, który pasuje do prawdziwego życia, a nie odwrotnie.</p><p>Nie wierzę w głodówki, zakazane produkty ani treningi do upadłego. Wierzę w jedzenie, które lubisz, ruch, który zmieścisz w swoim tygodniu, i w małe zmiany, które z czasem dają duży efekt.</p><p>Mieszkam w Wielkiej Brytanii, więc dobrze znam realia Polek na emigracji: inne sklepy, pracę na zmiany i tęsknotę za domowym jedzeniem. Uwzględniam to wszystko w Twoim planie.</p>"
+    },
+    { "type": "text", "id": "credentials_title", "label": "Tytuł listy", "default": "Kwalifikacje" },
+    {
+      "type": "richtext",
+      "id": "credentials",
+      "label": "Kwalifikacje (lista)",
+      "default": "<ul><li>[PLACEHOLDER] Kwalifikacja trenerska, np. Level 3 Personal Trainer</li><li>[PLACEHOLDER] Kurs z zakresu żywienia lub dietetyki</li><li>[PLACEHOLDER] Liczba lat doświadczenia w prowadzeniu podopiecznych</li></ul>"
+    },
+    {
+      "type": "text",
+      "id": "instagram_label",
+      "label": "Link do Instagrama – tekst",
+      "default": "Zajrzyj do mnie na Instagramie",
+      "info": "Adres konta: Ustawienia motywu → Media społecznościowe."
+    },
+    { "type": "text", "id": "anchor", "label": "Kotwica (id sekcji)", "default": "o-mnie" }
+  ],
+  "presets": [{ "name": "O mnie" }]
+}
+{% endschema %}

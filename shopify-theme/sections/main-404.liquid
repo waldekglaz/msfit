@@ -1,0 +1,16 @@
+<section class="ms-section">
+  <div class="ms-wrap ms-page">
+    <h1 class="ms-display ms-page-title">{{ 'not_found.title' | t }}</h1>
+    <p class="ms-lead ms-intro">{{ 'not_found.text' | t }}</p>
+    <div class="ms-button-row ms-space">
+      <a class="ms-button" href="{{ routes.root_url }}">{{ 'general.back_home' | t }}</a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Błąd 404",
+  "tag": "div"
+}
+{% endschema %}

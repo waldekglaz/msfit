@@ -1,0 +1,104 @@
+<header class="ms-header">
+  <div class="ms-wrap ms-header__bar">
+    <a class="ms-logo" href="{{ routes.root_url }}">
+      {{- section.settings.logo_text | default: shop.name | escape -}}
+      <span aria-hidden="true">.</span>
+      <span class="ms-visually-hidden"> {{ 'accessibility.home_link' | t }}</span>
+    </a>
+
+    {%- if section.blocks.size > 0 -%}
+      <nav class="ms-nav" aria-label="{{ 'accessibility.main_nav' | t }}">
+        <ul>
+          {%- for block in section.blocks -%}
+            <li {{ block.shopify_attributes }}><a href="{{ block.settings.link | escape }}">{{ block.settings.label | escape }}</a></li>
+          {%- endfor -%}
+        </ul>
+      </nav>
+    {%- endif -%}
+
+    <div class="ms-header__actions">
+      {%- if section.settings.cta_label != blank -%}
+        {% render 'button',
+          label: section.settings.cta_label,
+          link: section.settings.cta_link,
+          small: true,
+          class: 'ms-header__cta'
+        %}
+      {%- endif -%}
+
+      <div class="ms-menu" data-ms-menu>
+        <button
+          class="ms-menu__toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="MenuPanel"
+          data-ms-menu-toggle
+          data-open-label="{{ 'accessibility.menu' | t }}"
+          data-close-label="{{ 'accessibility.close_menu' | t }}"
+        >
+          <span data-ms-menu-label>{{ 'accessibility.menu' | t }}</span>
+          <span class="ms-menu__lines" aria-hidden="true"></span>
+        </button>
+        <div class="ms-menu__panel" id="MenuPanel" data-ms-menu-panel hidden>
+          <nav aria-label="{{ 'accessibility.main_nav' | t }}">
+            <ul>
+              {%- for block in section.blocks -%}
+                <li><a href="{{ block.settings.link | escape }}">{{ block.settings.label | escape }}</a></li>
+              {%- endfor -%}
+            </ul>
+          </nav>
+          {%- if section.settings.cta_label != blank -%}
+            {% render 'button', label: section.settings.cta_label, link: section.settings.cta_link, block: true %}
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Nagłówek",
+  "class": "ms-header-section",
+  "enabled_on": { "groups": ["header"] },
+  "settings": [
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo (tekst)",
+      "default": "MS Fit",
+      "info": "Za nazwą pojawia się kropka w kolorze akcentu."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Przycisk – tekst",
+      "default": "Aplikuj na współpracę"
+    },
+    {
+      "type": "text",
+      "id": "cta_link",
+      "label": "Przycisk – link",
+      "default": "https://martaciupak.onlinecoaching.io/pre-application",
+      "info": "Pełny adres (https://…) otwiera się w nowej karcie."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "link",
+      "name": "Link w menu",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Tekst", "default": "Link" },
+        {
+          "type": "text",
+          "id": "link",
+          "label": "Adres",
+          "default": "/",
+          "info": "Np. /#o-mnie (sekcja strony głównej), /collections/all albo pełny adres."
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8
+}
+{% endschema %}

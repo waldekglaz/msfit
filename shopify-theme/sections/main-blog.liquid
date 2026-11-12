@@ -1,0 +1,32 @@
+<section class="ms-section">
+  <div class="ms-wrap ms-page">
+    <h1 class="ms-display ms-page-title">{{ blog.title | escape }}</h1>
+    {%- paginate blog.articles by 10 -%}
+      {%- if blog.articles.size > 0 -%}
+        <ul class="ms-results">
+          {%- for article in blog.articles -%}
+            <li>
+              <h2 class="ms-display ms-h3"><a href="{{ article.url }}">{{ article.title | escape }}</a></h2>
+              <p class="ms-muted">{{ article.excerpt_or_content | strip_html | truncatewords: 30 }}</p>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- else -%}
+        <p class="ms-lead ms-intro">{{ 'blog.empty' | t }}</p>
+      {%- endif -%}
+      {%- if paginate.pages > 1 -%}
+        <nav class="ms-pagination" aria-label="{{ 'general.page' | t: page: paginate.current_page }}">
+          {%- if paginate.previous -%}<a class="ms-link" href="{{ paginate.previous.url }}">{{ 'general.previous' | t }}</a>{%- else -%}<span></span>{%- endif -%}
+          {%- if paginate.next -%}<a class="ms-link" href="{{ paginate.next.url }}">{{ 'general.next' | t }}</a>{%- endif -%}
+        </nav>
+      {%- endif -%}
+    {%- endpaginate -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Blog",
+  "tag": "div"
+}
+{% endschema %}

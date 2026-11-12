@@ -1,0 +1,29 @@
+{%- comment -%}
+  Phone-only bar with the main button. theme.js shows it once the hero has
+  scrolled away and hides it while the contact section is on screen.
+{%- endcomment -%}
+{%- if section.settings.label != blank -%}
+  <div class="ms-sticky-cta" data-ms-sticky-cta>
+    {% render 'button', label: section.settings.label, link: section.settings.link, block: true %}
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Przycisk na telefonie",
+  "enabled_on": { "groups": ["footer"] },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Pasek z przyciskiem przyklejony do dołu ekranu na telefonach (tylko na stronie głównej)."
+    },
+    { "type": "text", "id": "label", "label": "Tekst", "default": "Aplikuj na współpracę" },
+    {
+      "type": "text",
+      "id": "link",
+      "label": "Link",
+      "default": "https://martaciupak.onlinecoaching.io/pre-application"
+    }
+  ]
+}
+{% endschema %}

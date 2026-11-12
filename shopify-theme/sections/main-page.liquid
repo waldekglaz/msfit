@@ -1,0 +1,13 @@
+<section class="ms-section">
+  <div class="ms-wrap ms-page">
+    <h1 class="ms-display ms-page-title">{{ page.title | escape }}</h1>
+    <div class="ms-prose">{{ page.content }}</div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Strona",
+  "tag": "div"
+}
+{% endschema %}

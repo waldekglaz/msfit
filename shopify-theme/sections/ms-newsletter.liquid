@@ -1,0 +1,73 @@
+{%- comment -%}
+  Newsletter signup with Shopify's customer form: it adds the person to
+  Customers with email marketing consent, tagged "newsletter". Newsletters
+  are then sent with Shopify Email. Turn on double opt-in in Settings →
+  Customer privacy if Marta wants people to confirm by email first.
+{%- endcomment -%}
+{%- assign form_id = 'Newsletter-' | append: section.id -%}
+<section id="{{ section.settings.anchor | default: section.id }}" class="ms-section ms-section--ink ms-section--rule" aria-labelledby="Title-{{ section.id }}">
+  <div class="ms-wrap ms-newsletter__grid">
+    <div>
+      <h2 id="Title-{{ section.id }}" class="ms-display ms-h2">{{ section.settings.title }}</h2>
+      <p class="ms-lead">{{ section.settings.text | escape }}</p>
+    </div>
+
+    <div>
+      {%- form 'customer', id: form_id, class: 'ms-form' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        {%- if form.posted_successfully? -%}
+          <p class="ms-alert" role="status">{{ 'forms.newsletter_success' | t }}</p>
+        {%- else -%}
+          {%- if form.errors -%}
+            <div class="ms-alert" role="alert">
+              <p>{{ 'forms.error_intro' | t }}</p>
+              {{ form.errors | default_errors }}
+            </div>
+          {%- endif -%}
+          <div class="ms-form__row ms-form__row--2">
+            <div>
+              <label for="{{ form_id }}-name">{{ 'forms.name' | t }}</label>
+              <input class="ms-field" id="{{ form_id }}-name" type="text" name="contact[first_name]" autocomplete="given-name" maxlength="50" required>
+            </div>
+            <div>
+              <label for="{{ form_id }}-email">{{ 'forms.email' | t }}</label>
+              <input class="ms-field" id="{{ form_id }}-email" type="email" name="contact[email]" autocomplete="email" required>
+            </div>
+          </div>
+          <button class="ms-button" type="submit">{{ 'forms.newsletter_submit' | t }}</button>
+          <p class="ms-form__note">{{ section.settings.note }}</p>
+        {%- endif -%}
+      {%- endform -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Tytuł",
+      "default": "Zapisz się na <em>newsletter</em>",
+      "info": "Słowa zaznaczone kursywą są w kolorze akcentu."
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Tekst",
+      "default": "Przepisy, wskazówki treningowe i nowe darmowe materiały prosto na Twoją skrzynkę. Bez spamu – wypiszesz się jednym kliknięciem."
+    },
+    {
+      "type": "inline_richtext",
+      "id": "note",
+      "label": "Informacja pod przyciskiem",
+      "default": "Zapisując się, zgadzasz się na otrzymywanie newslettera. Szczegóły w <a href=\"/policies/privacy-policy\">Polityce prywatności</a>."
+    },
+    { "type": "text", "id": "anchor", "label": "Kotwica (id sekcji)", "default": "newsletter" }
+  ],
+  "presets": [{ "name": "Newsletter" }]
+}
+{% endschema %}

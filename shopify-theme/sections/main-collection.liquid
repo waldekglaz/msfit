@@ -1,0 +1,34 @@
+<section class="ms-section">
+  <div class="ms-wrap">
+    <h1 class="ms-display ms-page-title">{{ collection.title | escape }}</h1>
+    {%- if collection.description != blank -%}
+      <div class="ms-prose ms-page">{{ collection.description }}</div>
+    {%- endif -%}
+
+    {%- paginate collection.products by 12 -%}
+      {%- if collection.products.size > 0 -%}
+        <ul class="ms-grid ms-grid--3 ms-space-lg">
+          {%- for product in collection.products -%}
+            <li>{% render 'product-card', product: product %}</li>
+          {%- endfor -%}
+        </ul>
+      {%- else -%}
+        <p class="ms-lead ms-intro">{{ 'products.empty' | t }}</p>
+      {%- endif -%}
+
+      {%- if paginate.pages > 1 -%}
+        <nav class="ms-pagination" aria-label="{{ 'general.page' | t: page: paginate.current_page }}">
+          {%- if paginate.previous -%}<a class="ms-link" href="{{ paginate.previous.url }}">{{ 'general.previous' | t }}</a>{%- else -%}<span></span>{%- endif -%}
+          {%- if paginate.next -%}<a class="ms-link" href="{{ paginate.next.url }}">{{ 'general.next' | t }}</a>{%- endif -%}
+        </nav>
+      {%- endif -%}
+    {%- endpaginate -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Kolekcja",
+  "tag": "div"
+}
+{% endschema %}

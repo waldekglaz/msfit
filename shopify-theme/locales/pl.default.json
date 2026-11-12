@@ -1,0 +1,77 @@
+{
+  "general": {
+    "page": "Strona {{ page }}",
+    "new_tab": "(otwiera się w nowej karcie)",
+    "on_instagram": "na Instagramie",
+    "placeholder": "Przykładowa treść – do podmiany",
+    "home": "Strona główna",
+    "back_home": "Wróć na stronę główną",
+    "previous": "Poprzednia",
+    "next": "Następna"
+  },
+  "accessibility": {
+    "skip_to_content": "Przejdź do treści",
+    "home_link": "Coaching – początek strony",
+    "main_nav": "Sekcje strony",
+    "menu": "Menu",
+    "close_menu": "Zamknij",
+    "in_short": "W skrócie",
+    "chart_legend": "Legenda",
+    "price": "Cena"
+  },
+  "transformations": {
+    "before": "Przed",
+    "after": "Po"
+  },
+  "products": {
+    "free": "Za darmo",
+    "sold_out": "Wyprzedane",
+    "buy": "Kup teraz",
+    "get_free": "Pobierz za darmo",
+    "empty": "Dodaj produkty do wybranej kolekcji, a pojawią się tutaj.",
+    "placeholder_title": "Nazwa produktu",
+    "placeholder_text": "Wybierz kolekcję w ustawieniach sekcji. Ta karta jest widoczna tylko w edytorze."
+  },
+  "forms": {
+    "name": "Imię",
+    "email": "E-mail",
+    "message": "Wiadomość",
+    "send": "Wyślij wiadomość",
+    "contact_success": "Dziękuję! Wiadomość dotarła. Odpowiem najszybciej, jak to możliwe.",
+    "newsletter_submit": "Zapisuję się",
+    "newsletter_success": "Dziękuję za zapis! Pierwsza wiadomość wkrótce trafi na Twoją skrzynkę.",
+    "newsletter_already": "Ten adres jest już zapisany na newsletter.",
+    "error_intro": "Popraw, proszę:"
+  },
+  "cart": {
+    "title": "Koszyk",
+    "empty": "Koszyk jest pusty.",
+    "continue": "Wróć do sklepu",
+    "remove": "Usuń",
+    "quantity": "Ilość",
+    "update": "Zaktualizuj koszyk",
+    "subtotal": "Razem",
+    "taxes": "Podatki i ewentualne rabaty zostaną policzone w kasie.",
+    "checkout": "Przejdź do kasy"
+  },
+  "search": {
+    "title": "Wyszukiwanie",
+    "label": "Czego szukasz?",
+    "submit": "Szukaj",
+    "results": "Wyniki dla „{{ terms }}”",
+    "none": "Nic nie znaleziono. Spróbuj innego słowa."
+  },
+  "blog": {
+    "read_more": "Czytaj dalej",
+    "empty": "Nie ma jeszcze wpisów."
+  },
+  "not_found": {
+    "title": "Nie ma takiej strony",
+    "text": "Ten adres nie istnieje albo strona została przeniesiona."
+  },
+  "password": {
+    "title": "Sklep wkrótce ruszy",
+    "label": "Hasło do sklepu",
+    "submit": "Wejdź"
+  }
+}

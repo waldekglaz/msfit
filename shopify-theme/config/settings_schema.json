@@ -1,0 +1,50 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "MS Fit Poster",
+    "theme_version": "1.0.0",
+    "theme_author": "High Street Sites",
+    "theme_documentation_url": "https://github.com/waldekglaz/msfit/tree/main/shopify-theme",
+    "theme_support_url": "https://github.com/waldekglaz/msfit"
+  },
+  {
+    "name": "Kolory",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Kolor akcentu",
+        "default": "#C62B6E",
+        "info": "Przyciski, wyróżnione słowa i ikony. Biały tekst na tym kolorze musi zostać czytelny (kontrast co najmniej 4,5:1)."
+      }
+    ]
+  },
+  {
+    "name": "Ikona strony",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon",
+        "info": "Kwadratowy obrazek, najlepiej 96 × 96 px."
+      }
+    ]
+  },
+  {
+    "name": "Media społecznościowe",
+    "settings": [
+      {
+        "type": "text",
+        "id": "instagram_url",
+        "label": "Instagram – link",
+        "default": "https://www.instagram.com/msfit_coaching_/"
+      },
+      {
+        "type": "text",
+        "id": "instagram_handle",
+        "label": "Instagram – nazwa konta",
+        "default": "@msfit_coaching_"
+      }
+    ]
+  }
+]

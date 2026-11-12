@@ -1,0 +1,37 @@
+<section class="ms-stats" aria-label="{{ 'accessibility.in_short' | t }}">
+  <ul class="ms-wrap">
+    {%- for block in section.blocks -%}
+      <li {{ block.shopify_attributes }}>
+        <span class="ms-display ms-stats__value{% if block.settings.accent %} ms-stats__value--accent{% endif %}">
+          {{- block.settings.value | escape -}}
+        </span>
+        <span class="ms-stats__label">{{ block.settings.label | escape }}</span>
+      </li>
+    {%- endfor -%}
+  </ul>
+</section>
+
+{% schema %}
+{
+  "name": "Liczby",
+  "tag": "div",
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Liczba",
+      "settings": [
+        { "type": "text", "id": "value", "label": "Wartość", "default": "1000+" },
+        { "type": "text", "id": "label", "label": "Opis", "default": "podopiecznych" },
+        { "type": "checkbox", "id": "accent", "label": "W kolorze akcentu", "default": false }
+      ]
+    }
+  ],
+  "max_blocks": 3,
+  "presets": [
+    {
+      "name": "Liczby",
+      "blocks": [{ "type": "stat" }, { "type": "stat" }, { "type": "stat" }]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,67 @@
+<section id="{{ section.settings.anchor | default: section.id }}" class="ms-section ms-section--ink" aria-labelledby="Title-{{ section.id }}">
+  <div class="ms-wrap ms-split">
+    <div class="ms-faq-intro">
+      <div class="ms-sticky">
+        <h2 id="Title-{{ section.id }}" class="ms-display ms-h2">{{ section.settings.title }}</h2>
+        <p class="ms-lead">{{ section.settings.intro | escape }}</p>
+        {%- if section.settings.contact_label != blank -%}
+          <a class="ms-link" href="{{ section.settings.contact_link | escape }}">{{ section.settings.contact_label | escape }}</a>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="ms-faq">
+      {%- for block in section.blocks -%}
+        <details {{ block.shopify_attributes }}>
+          <summary>
+            <h3>{{ block.settings.question | escape }}</h3>
+            <span class="ms-faq__plus" aria-hidden="true"></span>
+          </summary>
+          <div class="ms-faq__answer ms-rte">{{ block.settings.answer }}</div>
+        </details>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FAQ",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Tytuł",
+      "default": "Najczęstsze <em>pytania</em>",
+      "info": "Słowa zaznaczone kursywą są w kolorze akcentu."
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Wstęp",
+      "default": "Nie ma tu odpowiedzi na Twoje pytanie? Chętnie pomogę."
+    },
+    { "type": "text", "id": "contact_label", "label": "Link – tekst", "default": "Napisz do mnie" },
+    { "type": "text", "id": "contact_link", "label": "Link – adres", "default": "#kontakt" },
+    { "type": "text", "id": "anchor", "label": "Kotwica (id sekcji)", "default": "faq" }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Pytanie",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Pytanie", "default": "Pytanie?" },
+        { "type": "richtext", "id": "answer", "label": "Odpowiedź", "default": "<p>Odpowiedź.</p>" }
+      ]
+    }
+  ],
+  "max_blocks": 16,
+  "presets": [
+    {
+      "name": "FAQ",
+      "blocks": [{ "type": "question" }, { "type": "question" }, { "type": "question" }]
+    }
+  ]
+}
+{% endschema %}

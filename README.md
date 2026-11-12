@@ -9,6 +9,7 @@ translation of the main page (see "English version").
 - **All content lives in one file: [`lib/data.ts`](lib/data.ts)**
 - Contact form → `app/api/contact/route.ts` → email via [Resend](https://resend.com)
 - `/demo-3`: free materials behind a name + email form, and a newsletter signup (see "Free materials and newsletter")
+- `shopify-theme/`: `/demo-3` rebuilt as a Shopify theme for Marta's store (see its own README)
 - No cookies and no tracking scripts. Only cookieless `@vercel/analytics`
 - Legal pages: `/polityka-prywatnosci` and `/regulamin` (templates, see below)
 
@@ -73,6 +74,7 @@ lib/
   freebie-links.ts           signed, expiring download links
   form-checks.ts             name/email checks and bot filter for the signup forms
 private/freebies/            the free materials (not public: served only via signed links)
+shopify-theme/               /demo-3 as a Shopify theme (separate from the Next.js app)
 public/images/               photos (some interim, see "Swapping images")
 tailwind.config.ts           colour palettes and type scale
 ```

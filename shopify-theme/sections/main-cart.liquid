@@ -1,0 +1,55 @@
+{%- comment -%}
+  The cart. The site's buttons go straight to checkout, so people only land
+  here if they open /cart themselves.
+{%- endcomment -%}
+<section class="ms-section">
+  <div class="ms-wrap ms-page">
+    <h1 class="ms-display ms-page-title">{{ 'cart.title' | t }}</h1>
+
+    {%- if cart.item_count > 0 -%}
+      {%- form 'cart', cart -%}
+        <ul class="ms-cart">
+          {%- for item in cart.items -%}
+            <li class="ms-cart__item">
+              {%- if item.image -%}
+                {{ item.image | image_url: width: 160 | image_tag: loading: 'lazy', alt: item.product.title }}
+              {%- else -%}
+                <span></span>
+              {%- endif -%}
+              <div>
+                <h2><a href="{{ item.url }}">{{ item.product.title | escape }}</a></h2>
+                {%- unless item.product.has_only_default_variant -%}<p class="ms-muted">{{ item.variant.title | escape }}</p>{%- endunless -%}
+                <p>{{ item.final_line_price | money }}</p>
+                <div class="ms-cart__controls">
+                  <label class="ms-visually-hidden" for="Quantity-{{ forloop.index }}">{{ 'cart.quantity' | t }}</label>
+                  <input class="ms-field" id="Quantity-{{ forloop.index }}" type="number" name="updates[]" value="{{ item.quantity }}" min="0">
+                  <a class="ms-link" href="{{ item.url_to_remove }}">{{ 'cart.remove' | t }}<span class="ms-visually-hidden">: {{ item.product.title | escape }}</span></a>
+                </div>
+              </div>
+            </li>
+          {%- endfor -%}
+        </ul>
+
+        <div class="ms-cart__summary">
+          <p>{{ 'cart.subtotal' | t }}: <span class="ms-cart__total">{{ cart.total_price | money }}</span></p>
+          <p class="ms-muted">{{ 'cart.taxes' | t }}</p>
+          <div class="ms-button-row">
+            <button class="ms-button ms-button--outline" type="submit" name="update">{{ 'cart.update' | t }}</button>
+            <button class="ms-button" type="submit" name="checkout">{{ 'cart.checkout' | t }}</button>
+          </div>
+        </div>
+      {%- endform -%}
+    {%- else -%}
+      <p class="ms-lead ms-intro">{{ 'cart.empty' | t }}</p>
+      {%- assign continue_label = 'cart.continue' | t -%}
+      <p class="ms-space">{% render 'button', label: continue_label, link: routes.root_url %}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Koszyk",
+  "tag": "div"
+}
+{% endschema %}

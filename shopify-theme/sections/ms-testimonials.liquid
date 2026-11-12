@@ -1,0 +1,75 @@
+<section id="{{ section.settings.anchor | default: section.id }}" class="ms-section ms-section--ink ms-section--rule" aria-labelledby="Title-{{ section.id }}">
+  <div class="ms-wrap">
+    <div class="ms-heading">
+      <h2 id="Title-{{ section.id }}" class="ms-display ms-h2">{{ section.settings.title }}</h2>
+      <p class="ms-lead ms-heading__intro">{{ section.settings.intro | escape }}</p>
+    </div>
+
+    <ul class="ms-quotes">
+      {%- for block in section.blocks -%}
+        <li {{ block.shopify_attributes }}>
+          <figure>
+            {% render 'icon', name: 'quote' %}
+            <blockquote><p>„{{ block.settings.quote | escape }}”</p></blockquote>
+            <figcaption>
+              <strong>{{ block.settings.name | escape }}</strong>
+              <span>{{ block.settings.detail | escape }}</span>
+            </figcaption>
+            {%- if block.settings.placeholder -%}{% render 'placeholder-badge' %}{%- endif -%}
+          </figure>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Opinie",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Tytuł",
+      "default": "Opinie <em>podopiecznych</em>",
+      "info": "Słowa zaznaczone kursywą są w kolorze akcentu."
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Wstęp",
+      "default": "Kilka słów od kobiet, które przeszły tę drogę ze mną."
+    },
+    { "type": "text", "id": "anchor", "label": "Kotwica (id sekcji)", "default": "opinie" }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Opinia",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Tylko prawdziwe opinie, za zgodą autorki. Wymyślone opinie są w UK nielegalne (DMCC Act 2024)."
+        },
+        { "type": "textarea", "id": "quote", "label": "Opinia", "default": "Treść opinii." },
+        { "type": "text", "id": "name", "label": "Imię", "default": "Imię" },
+        { "type": "text", "id": "detail", "label": "Miasto lub dopisek", "default": "Miasto" },
+        {
+          "type": "checkbox",
+          "id": "placeholder",
+          "label": "Przykładowa treść (pokaż znaczek)",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Opinie",
+      "blocks": [{ "type": "testimonial" }, { "type": "testimonial" }, { "type": "testimonial" }]
+    }
+  ]
+}
+{% endschema %}

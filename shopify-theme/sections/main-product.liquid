@@ -1,0 +1,66 @@
+{%- comment -%}
+  Product page. The button adds the product and goes straight to checkout
+  (these are single digital files). Free products (price 0) say "Za darmo".
+{%- endcomment -%}
+{%- liquid
+  assign variant = product.selected_or_first_available_variant
+  assign is_free = false
+  if product.price == 0
+    assign is_free = true
+  endif
+-%}
+<section class="ms-section">
+  <div class="ms-wrap ms-product">
+    <div class="ms-product__media">
+      {%- if product.featured_image -%}
+        {{ product.featured_image | image_url: width: 1400 | image_tag: loading: 'eager', sizes: '(min-width: 1024px) 50vw, 100vw', widths: '600, 900, 1200, 1400' }}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag }}
+      {%- endif -%}
+    </div>
+
+    <div>
+      {%- if product.type != blank -%}<p class="ms-muted">{{ product.type | escape }}</p>{%- endif -%}
+      <h1 class="ms-display ms-page-title">{{ product.title | escape }}</h1>
+      <p class="ms-card__price">
+        {%- if is_free -%}{{ 'products.free' | t }}{%- else -%}{{ variant.price | money }}{%- endif -%}
+      </p>
+
+      {%- form 'product', product, class: 'ms-form' -%}
+        <input type="hidden" name="return_to" value="/checkout">
+        {%- if product.has_only_default_variant -%}
+          <input type="hidden" name="id" value="{{ variant.id }}">
+        {%- else -%}
+          <div>
+            <label for="Variant-{{ section.id }}">{{ product.options | join: ' / ' }}</label>
+            <select class="ms-field" id="Variant-{{ section.id }}" name="id">
+              {%- for option in product.variants -%}
+                <option value="{{ option.id }}"{% if option == variant %} selected{% endif %}{% unless option.available %} disabled{% endunless %}>
+                  {{ option.title | escape }} – {{ option.price | money }}
+                </option>
+              {%- endfor -%}
+            </select>
+          </div>
+        {%- endif -%}
+        <button class="ms-button" type="submit"{% unless variant.available %} disabled{% endunless %}>
+          {%- if variant.available == false -%}
+            {{ 'products.sold_out' | t }}
+          {%- elsif is_free -%}
+            {{ 'products.get_free' | t }}
+          {%- else -%}
+            {{ 'products.buy' | t }}
+          {%- endif -%}
+        </button>
+      {%- endform -%}
+
+      <div class="ms-prose">{{ product.description }}</div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Produkt",
+  "tag": "div"
+}
+{% endschema %}

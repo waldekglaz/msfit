@@ -1,0 +1,109 @@
+{%- comment -%}
+  The closing section: the big question with the application button, and
+  Shopify's contact form, whose messages go to the store's email address
+  (Settings → Store details). Shopify adds its own spam protection (hCaptcha).
+{%- endcomment -%}
+{%- assign form_id = 'ContactForm-' | append: section.id -%}
+<section id="{{ section.settings.anchor | default: section.id }}" class="ms-section ms-final" aria-labelledby="Title-{{ section.id }}" data-ms-contact>
+  <div class="ms-wrap ms-final__grid">
+    <div>
+      <h2 id="Title-{{ section.id }}" class="ms-display ms-mega">{{ section.settings.title }}</h2>
+      <div class="ms-rule" aria-hidden="true"></div>
+      <p class="ms-final__text">{{ section.settings.text | escape }}</p>
+      {%- if section.settings.button_label != blank -%}
+        {% render 'button', label: section.settings.button_label, link: section.settings.button_link %}
+      {%- endif -%}
+
+      {%- if settings.instagram_url != blank -%}
+        <p class="ms-final__insta">{{ section.settings.instagram_text | escape }}</p>
+        <a class="ms-icon-link" href="{{ settings.instagram_url | escape }}" target="_blank" rel="noopener">
+          {% render 'icon', name: 'instagram' %}
+          <span>
+            {{- settings.instagram_handle | escape -}}
+            <span class="ms-visually-hidden"> {{ 'general.on_instagram' | t }} {{ 'general.new_tab' | t }}</span>
+          </span>
+        </a>
+      {%- endif -%}
+    </div>
+
+    <div class="ms-panel">
+      <h3 class="ms-display">{{ section.settings.form_title | escape }}</h3>
+      <p class="ms-muted ms-panel__intro">{{ section.settings.form_intro | escape }}</p>
+
+      {%- form 'contact', id: form_id, class: 'ms-form' -%}
+        {%- if form.posted_successfully? -%}
+          <p class="ms-alert" role="status">{{ 'forms.contact_success' | t }}</p>
+        {%- elsif form.errors -%}
+          <div class="ms-alert" role="alert">
+            <p>{{ 'forms.error_intro' | t }}</p>
+            {{ form.errors | default_errors }}
+          </div>
+        {%- endif -%}
+
+        <div>
+          <label for="{{ form_id }}-name">{{ 'forms.name' | t }}</label>
+          <input class="ms-field" id="{{ form_id }}-name" type="text" name="contact[name]" autocomplete="given-name" maxlength="100" required value="{{ form.name }}">
+        </div>
+        <div>
+          <label for="{{ form_id }}-email">{{ 'forms.email' | t }}</label>
+          <input class="ms-field" id="{{ form_id }}-email" type="email" name="contact[email]" autocomplete="email" required value="{{ form.email }}">
+        </div>
+        <div>
+          <label for="{{ form_id }}-body">{{ 'forms.message' | t }}</label>
+          <textarea class="ms-field" id="{{ form_id }}-body" name="contact[body]" minlength="10" maxlength="2000" required>{{ form.body }}</textarea>
+        </div>
+        <div class="ms-check">
+          <input id="{{ form_id }}-consent" type="checkbox" name="contact[Zgoda na przetwarzanie danych]" value="tak" required>
+          <label for="{{ form_id }}-consent" class="ms-form__note">{{ section.settings.consent }}</label>
+        </div>
+        <button class="ms-button" type="submit">{{ 'forms.send' | t }}</button>
+      {%- endform -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Zakończenie i kontakt",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Tytuł",
+      "default": "Jesteś gotowa <em>na zmianę?</em>",
+      "info": "Słowa zaznaczone kursywą są w kolorze akcentu."
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Tekst",
+      "default": "Wypełnij krótką aplikację. Odezwę się do Ciebie, porozmawiamy o Twoim celu i sprawdzimy, czy możemy zacząć razem."
+    },
+    { "type": "text", "id": "button_label", "label": "Przycisk – tekst", "default": "Aplikuj na współpracę" },
+    {
+      "type": "text",
+      "id": "button_link",
+      "label": "Przycisk – link",
+      "default": "https://martaciupak.onlinecoaching.io/pre-application"
+    },
+    {
+      "type": "textarea",
+      "id": "instagram_text",
+      "label": "Tekst nad linkiem do Instagrama",
+      "default": "Wolisz najpierw mnie poznać? Na Instagramie dzielę się przepisami i wskazówkami treningowymi."
+    },
+    { "type": "header", "content": "Formularz kontaktowy" },
+    { "type": "text", "id": "form_title", "label": "Tytuł", "default": "Masz pytanie? Napisz do mnie" },
+    { "type": "text", "id": "form_intro", "label": "Wstęp", "default": "Odpowiem mailowo najszybciej, jak to możliwe." },
+    {
+      "type": "inline_richtext",
+      "id": "consent",
+      "label": "Zgoda (obok pola wyboru)",
+      "default": "Wyrażam zgodę na przetwarzanie moich danych w celu odpowiedzi na wiadomość, zgodnie z <a href=\"/policies/privacy-policy\">Polityką prywatności</a>."
+    },
+    { "type": "text", "id": "anchor", "label": "Kotwica (id sekcji)", "default": "kontakt" }
+  ],
+  "presets": [{ "name": "Zakończenie i kontakt" }]
+}
+{% endschema %}

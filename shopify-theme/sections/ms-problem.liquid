@@ -1,0 +1,106 @@
+<section id="{{ section.settings.anchor | default: section.id }}" class="ms-section" aria-labelledby="Title-{{ section.id }}">
+  <div class="ms-wrap ms-split">
+    <div>
+      <h2 id="Title-{{ section.id }}" class="ms-display ms-h2">{{ section.settings.title }}</h2>
+      <p class="ms-lead ms-intro">{{ section.settings.intro | escape }}</p>
+
+      <ul class="ms-points">
+        {%- for block in section.blocks -%}
+          <li {{ block.shopify_attributes }}>
+            <span class="ms-points__icon">{% render 'icon', name: block.settings.icon %}</span>
+            <div>
+              <h3 class="ms-display ms-h3">{{ block.settings.title | escape }}</h3>
+              <p>{{ block.settings.text | escape }}</p>
+            </div>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+
+    {%- if section.settings.show_chart -%}
+      <div>
+        <div class="ms-sticky">
+          {% render 'yoyo-chart',
+            title: section.settings.chart_title,
+            description: section.settings.chart_description,
+            axis_y: section.settings.chart_axis_y,
+            axis_x: section.settings.chart_axis_x,
+            yoyo_label: section.settings.chart_yoyo,
+            steady_label: section.settings.chart_steady,
+            caption: section.settings.chart_caption
+          %}
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Problem i wykres",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Tytuł",
+      "default": "Znasz to <em>aż za dobrze</em>?",
+      "info": "Słowa zaznaczone kursywą są w kolorze akcentu."
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Wstęp",
+      "default": "Jeśli kolejna dieta skończyła się powrotem do punktu wyjścia, to nie przez słabą wolę. Po prostu żaden z tych planów nie był pisany dla Ciebie."
+    },
+    { "type": "header", "content": "Wykres" },
+    { "type": "checkbox", "id": "show_chart", "label": "Pokaż wykres", "default": true },
+    { "type": "text", "id": "chart_title", "label": "Tytuł wykresu", "default": "Huśtawka czy stały postęp?" },
+    { "type": "text", "id": "chart_yoyo", "label": "Linia przerywana", "default": "Dieta-cud" },
+    { "type": "text", "id": "chart_steady", "label": "Linia w kolorze akcentu", "default": "Plan szyty na miarę" },
+    { "type": "text", "id": "chart_axis_y", "label": "Oś pionowa", "default": "waga" },
+    { "type": "text", "id": "chart_axis_x", "label": "Oś pozioma", "default": "czas" },
+    {
+      "type": "textarea",
+      "id": "chart_description",
+      "label": "Opis dla czytników ekranu",
+      "default": "Wykres poglądowy, bez liczb. Linia „Dieta-cud” kilka razy gwałtownie spada i rośnie, a kończy się wyżej niż na starcie. Linia „Plan szyty na miarę” opada łagodnie i utrzymuje się na niższym poziomie."
+    },
+    {
+      "type": "textarea",
+      "id": "chart_caption",
+      "label": "Podpis",
+      "default": "Schemat poglądowy. Zamiast huśtawki: spokojne tempo i nawyki, które zostają z Tobą na dłużej."
+    },
+    { "type": "text", "id": "anchor", "label": "Kotwica (id sekcji)" }
+  ],
+  "blocks": [
+    {
+      "type": "point",
+      "name": "Punkt",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Ikona",
+          "options": [
+            { "value": "loop", "label": "Pętla" },
+            { "value": "clock", "label": "Zegar" },
+            { "value": "energy", "label": "Błyskawica" }
+          ],
+          "default": "loop"
+        },
+        { "type": "text", "id": "title", "label": "Tytuł", "default": "Tytuł punktu" },
+        { "type": "textarea", "id": "text", "label": "Tekst", "default": "Opis punktu." }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Problem i wykres",
+      "blocks": [{ "type": "point" }, { "type": "point" }, { "type": "point" }]
+    }
+  ]
+}
+{% endschema %}

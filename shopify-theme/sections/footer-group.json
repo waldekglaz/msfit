@@ -1,0 +1,23 @@
+{
+  "type": "footer",
+  "name": "Stopka",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "settings": {
+        "wordmark": "MS Fit",
+        "tagline": "Dieta i trening online szyte na miarę – dla kobiet w UK i w Polsce.",
+        "email": "kontakt@msfitcoaching.pl",
+        "disclaimer": "Treści na tej stronie mają charakter informacyjny i nie są poradą medyczną. Przed rozpoczęciem diety lub treningu skonsultuj się z lekarzem. Rezultaty są indywidualne i zależą m.in. od stanu zdrowia, stylu życia i zaangażowania."
+      }
+    },
+    "sticky-cta": {
+      "type": "sticky-cta",
+      "settings": {
+        "label": "Aplikuj na współpracę",
+        "link": "https://martaciupak.onlinecoaching.io/pre-application"
+      }
+    }
+  },
+  "order": ["footer", "sticky-cta"]
+}

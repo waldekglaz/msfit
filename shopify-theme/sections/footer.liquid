@@ -1,0 +1,74 @@
+<footer class="ms-footer">
+  <div class="ms-wrap">
+    <p class="ms-display ms-footer__mark" aria-hidden="true">
+      {{- section.settings.wordmark | default: shop.name | escape -}}<span>.</span>
+    </p>
+
+    <div class="ms-footer__grid">
+      <p class="ms-display ms-footer__tagline">{{ section.settings.tagline | escape }}</p>
+
+      <ul class="ms-footer__links">
+        {%- if settings.instagram_url != blank -%}
+          <li>
+            <a href="{{ settings.instagram_url | escape }}" target="_blank" rel="noopener">
+              Instagram {{ settings.instagram_handle | escape }}
+              <span class="ms-visually-hidden"> {{ 'general.new_tab' | t }}</span>
+            </a>
+          </li>
+        {%- endif -%}
+        {%- if section.settings.email != blank -%}
+          <li><a href="mailto:{{ section.settings.email | escape }}">{{ section.settings.email | escape }}</a></li>
+        {%- endif -%}
+        {%- for link in section.settings.menu.links -%}
+          <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
+        {%- endfor -%}
+      </ul>
+
+      {%- comment -%} Settings → Policies in Shopify admin. {%- endcomment -%}
+      <ul class="ms-footer__links">
+        {%- for policy in shop.policies -%}
+          <li><a href="{{ policy.url }}">{{ policy.title | escape }}</a></li>
+        {%- endfor -%}
+      </ul>
+    </div>
+
+    <div class="ms-footer__small">
+      <p>{{ section.settings.disclaimer | escape }}</p>
+      <p>© {{ 'now' | date: '%Y' }} {{ shop.name | escape }}</p>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Stopka",
+  "enabled_on": { "groups": ["footer"] },
+  "settings": [
+    { "type": "text", "id": "wordmark", "label": "Duży napis", "default": "MS Fit" },
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Hasło",
+      "default": "Dieta i trening online szyte na miarę – dla kobiet w UK i w Polsce."
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Adres e-mail",
+      "default": "kontakt@msfitcoaching.pl"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Dodatkowe linki (menu)",
+      "info": "Opcjonalnie. Polityki sklepu (prywatność, regulamin, zwroty) pojawiają się automatycznie."
+    },
+    {
+      "type": "textarea",
+      "id": "disclaimer",
+      "label": "Zastrzeżenie zdrowotne",
+      "default": "Treści na tej stronie mają charakter informacyjny i nie są poradą medyczną. Przed rozpoczęciem diety lub treningu skonsultuj się z lekarzem. Rezultaty są indywidualne i zależą m.in. od stanu zdrowia, stylu życia i zaangażowania."
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,128 @@
+{%- liquid
+  assign image = section.settings.image
+  assign alt = image.alt | default: section.settings.image_alt
+-%}
+<section id="{{ section.settings.anchor | default: section.id }}" class="ms-hero" aria-labelledby="Title-{{ section.id }}" data-ms-hero>
+  <div class="ms-hero__media">
+    {%- if image != blank -%}
+      {{
+        image
+        | image_url: width: 1800
+        | image_tag:
+          loading: 'eager',
+          fetchpriority: 'high',
+          sizes: '(min-width: 1024px) 55vw, 100vw',
+          widths: '600, 900, 1200, 1500, 1800',
+          alt: alt
+      }}
+    {%- else -%}
+      {%- comment -%} Until a photo is chosen: the interim photo shipped with the theme. {%- endcomment -%}
+      <img src="{{ 'marta-hero.jpg' | asset_url }}" alt="{{ alt | escape }}" width="678" height="848" fetchpriority="high">
+    {%- endif -%}
+    <div class="ms-hero__shade" aria-hidden="true"></div>
+    {%- if section.settings.caption != blank -%}
+      <p class="ms-hero__caption">{{ section.settings.caption | escape }}</p>
+    {%- endif -%}
+  </div>
+
+  <div class="ms-wrap ms-hero__content">
+    <div class="ms-hero__inner">
+      <h1 id="Title-{{ section.id }}" class="ms-display ms-hero__title">
+        <span>{{ section.settings.heading | escape | newline_to_br }}</span>
+        {%- if section.settings.heading_accent != blank %}
+          <span class="ms-hero__accent">{{ section.settings.heading_accent | escape | newline_to_br }}</span>
+        {%- endif %}
+      </h1>
+      <div class="ms-rule" aria-hidden="true"></div>
+      {%- if section.settings.text != blank -%}
+        <p class="ms-hero__lead">{{ section.settings.text }}</p>
+      {%- endif -%}
+      <div class="ms-button-row">
+        {%- if section.settings.button_label != blank -%}
+          {% render 'button', label: section.settings.button_label, link: section.settings.button_link %}
+        {%- endif -%}
+        {%- if section.settings.button2_label != blank -%}
+          {% render 'button', label: section.settings.button2_label, link: section.settings.button2_link, outline: true %}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Nagłówek",
+      "default": "Schudnij\nna dobre.",
+      "info": "Enter = nowa linijka, jak na plakacie."
+    },
+    {
+      "type": "textarea",
+      "id": "heading_accent",
+      "label": "Nagłówek – część w kolorze akcentu",
+      "default": "Bez efektu\njojo."
+    },
+    {
+      "type": "inline_richtext",
+      "id": "text",
+      "label": "Tekst",
+      "default": "Dieta i trening <strong>szyte na miarę</strong> – pod Twój grafik, Twoje smaki i Twoje cele. Prowadzę Cię online, krok po kroku, aż nowe nawyki staną się codziennością."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Przycisk 1 – tekst",
+      "default": "Aplikuj na współpracę"
+    },
+    {
+      "type": "text",
+      "id": "button_link",
+      "label": "Przycisk 1 – link",
+      "default": "https://martaciupak.onlinecoaching.io/pre-application"
+    },
+    {
+      "type": "text",
+      "id": "button2_label",
+      "label": "Przycisk 2 – tekst",
+      "default": "Zobacz produkty"
+    },
+    {
+      "type": "text",
+      "id": "button2_link",
+      "label": "Przycisk 2 – link",
+      "default": "#produkty"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Zdjęcie",
+      "info": "Pionowe, min. 1200 × 1500 px. Bez zdjęcia widać tymczasowe zdjęcie Marty."
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Opis zdjęcia (dla niewidomych)",
+      "default": "Uśmiechnięta Marta Sim w czarnym stroju treningowym, z hantlą w dłoni",
+      "info": "Używany, gdy zdjęcie w Plikach nie ma własnego opisu."
+    },
+    {
+      "type": "text",
+      "id": "caption",
+      "label": "Podpis zdjęcia",
+      "default": "Marta Sim, trenerka personalna online"
+    },
+    {
+      "type": "text",
+      "id": "anchor",
+      "label": "Kotwica (id sekcji)",
+      "default": "start"
+    }
+  ],
+  "presets": [{ "name": "Hero" }]
+}
+{% endschema %}

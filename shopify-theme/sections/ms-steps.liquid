@@ -1,0 +1,98 @@
+<section id="{{ section.settings.anchor | default: section.id }}" class="ms-section ms-section--ink" aria-labelledby="Title-{{ section.id }}">
+  <div class="ms-wrap">
+    <div class="ms-heading">
+      <h2 id="Title-{{ section.id }}" class="ms-display ms-h2">{{ section.settings.title }}</h2>
+      <p class="ms-lead ms-heading__intro">{{ section.settings.intro | escape }}</p>
+    </div>
+
+    <ol class="ms-steps">
+      {%- for block in section.blocks -%}
+        <li {{ block.shopify_attributes }}>
+          <span class="ms-display ms-steps__num" aria-hidden="true">{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span>
+          <h3 class="ms-display">{{ block.settings.title | escape }}</h3>
+          <p>{{ block.settings.text | escape }}</p>
+        </li>
+      {%- endfor -%}
+    </ol>
+
+    {%- if section.settings.show_offer -%}
+      <div class="ms-offer">
+        <div>
+          <h3 class="ms-display">{{ section.settings.offer_title }}</h3>
+          <p class="ms-lead">{{ section.settings.offer_text | escape }}</p>
+          {%- if section.settings.offer_button_label != blank -%}
+            {% render 'button', label: section.settings.offer_button_label, link: section.settings.offer_button_link %}
+          {%- endif -%}
+        </div>
+        <div class="ms-rte-list">{{ section.settings.offer_list }}</div>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Jak pracuję",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Tytuł",
+      "default": "Jak wygląda nasza <em>współpraca</em>",
+      "info": "Słowa zaznaczone kursywą są w kolorze akcentu."
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Wstęp",
+      "default": "Cztery proste kroki – od pierwszej wiadomości do planu, który naprawdę działa w Twoim życiu."
+    },
+    { "type": "header", "content": "Oferta 1:1 (ramka pod krokami)" },
+    { "type": "checkbox", "id": "show_offer", "label": "Pokaż ofertę", "default": true },
+    {
+      "type": "inline_richtext",
+      "id": "offer_title",
+      "label": "Tytuł oferty",
+      "default": "Współpraca online <em>1:1</em>"
+    },
+    {
+      "type": "textarea",
+      "id": "offer_text",
+      "label": "Opis oferty",
+      "default": "Pełne prowadzenie: dieta, trening i stały kontakt ze mną. Cenę i długość współpracy ustalamy po konsultacji, kiedy już wiem, czego potrzebujesz."
+    },
+    {
+      "type": "richtext",
+      "id": "offer_list",
+      "label": "Co zawiera (lista)",
+      "default": "<ul><li>Indywidualny plan żywieniowy, bez zakazanych produktów</li><li>Plan treningowy na dom albo siłownię</li><li>Regularne check-iny i korekty planu</li><li>Kontakt ze mną przez aplikację</li><li>Wskazówki, jak jeść na mieście, w podróży i w święta</li></ul>"
+    },
+    { "type": "text", "id": "offer_button_label", "label": "Przycisk – tekst", "default": "Aplikuj na współpracę" },
+    {
+      "type": "text",
+      "id": "offer_button_link",
+      "label": "Przycisk – link",
+      "default": "https://martaciupak.onlinecoaching.io/pre-application"
+    },
+    { "type": "text", "id": "anchor", "label": "Kotwica (id sekcji)", "default": "jak-pracuje" }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Krok",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Tytuł", "default": "Krok" },
+        { "type": "textarea", "id": "text", "label": "Opis", "default": "Opis kroku." }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "Jak pracuję",
+      "blocks": [{ "type": "step" }, { "type": "step" }, { "type": "step" }, { "type": "step" }]
+    }
+  ]
+}
+{% endschema %}

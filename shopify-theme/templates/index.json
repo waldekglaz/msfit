@@ -1,0 +1,339 @@
+{
+  "sections": {
+    "hero": {
+      "type": "ms-hero",
+      "settings": {
+        "heading": "Schudnij\nna dobre.",
+        "heading_accent": "Bez efektu\njojo.",
+        "text": "Dieta i trening <strong>szyte na miarę</strong> – pod Twój grafik, Twoje smaki i Twoje cele. Prowadzę Cię online, krok po kroku, aż nowe nawyki staną się codziennością.",
+        "button_label": "Aplikuj na współpracę",
+        "button_link": "https://martaciupak.onlinecoaching.io/pre-application",
+        "button2_label": "Zobacz produkty",
+        "button2_link": "#produkty",
+        "image_alt": "Uśmiechnięta Marta Sim w czarnym stroju treningowym, z hantlą w dłoni",
+        "caption": "Marta Sim, trenerka personalna online",
+        "anchor": "start"
+      }
+    },
+    "stats": {
+      "type": "ms-stats",
+      "blocks": {
+        "stat-1": {
+          "type": "stat",
+          "settings": {
+            "value": "1000+",
+            "label": "podopiecz­nych",
+            "accent": true
+          }
+        },
+        "stat-2": {
+          "type": "stat",
+          "settings": {
+            "value": "Plan",
+            "label": "szyty na miarę, nie z szablonu"
+          }
+        },
+        "stat-3": {
+          "type": "stat",
+          "settings": {
+            "value": "Online",
+            "label": "wsparcie w UK i w Polsce"
+          }
+        }
+      },
+      "block_order": [
+        "stat-1",
+        "stat-2",
+        "stat-3"
+      ],
+      "settings": {}
+    },
+    "problem": {
+      "type": "ms-problem",
+      "blocks": {
+        "point-1": {
+          "type": "point",
+          "settings": {
+            "icon": "loop",
+            "title": "Diety, które nie wytrzymują zderzenia z życiem",
+            "text": "Restrykcyjny jadłospis działa przez dwa tygodnie. Potem przychodzi weekend, urodziny albo gorszy dzień – i kilogramy wracają, często z nawiązką."
+          }
+        },
+        "point-2": {
+          "type": "point",
+          "settings": {
+            "icon": "clock",
+            "title": "Brak czasu",
+            "text": "Praca, dom, dzieci, zmiany w grafiku. Godzina na siłowni codziennie i gotowanie pięciu posiłków brzmią jak plan dla kogoś innego."
+          }
+        },
+        "point-3": {
+          "type": "point",
+          "settings": {
+            "icon": "energy",
+            "title": "Motywacja, która znika",
+            "text": "Zaczynasz z zapałem, ale bez wsparcia i jasnego planu łatwo odpuścić po pierwszym gorszym tygodniu. A potem znowu „od poniedziałku”."
+          }
+        }
+      },
+      "block_order": [
+        "point-1",
+        "point-2",
+        "point-3"
+      ],
+      "settings": {
+        "title": "Znasz to <em>aż za dobrze</em>?",
+        "intro": "Jeśli kolejna dieta skończyła się powrotem do punktu wyjścia, to nie przez słabą wolę. Po prostu żaden z tych planów nie był pisany dla Ciebie.",
+        "show_chart": true
+      }
+    },
+    "about": {
+      "type": "ms-about",
+      "settings": {
+        "anchor": "o-mnie"
+      }
+    },
+    "steps": {
+      "type": "ms-steps",
+      "blocks": {
+        "step-1": {
+          "type": "step",
+          "settings": {
+            "title": "Wypełniasz aplikację",
+            "text": "Odpowiadasz na kilka pytań o swój cel, codzienność, zdrowie i dotychczasowe próby. To zajmie Ci tylko kilka minut."
+          }
+        },
+        "step-2": {
+          "type": "step",
+          "settings": {
+            "title": "Konsultacja",
+            "text": "Rozmawiamy o tym, czego potrzebujesz i czy współpraca jest dla Ciebie. Bez presji i bez zobowiązań."
+          }
+        },
+        "step-3": {
+          "type": "step",
+          "settings": {
+            "title": "Plan szyty na miarę",
+            "text": "Dostajesz plan żywieniowy i treningowy dopasowany do Twojego grafiku, smaków i miejsca treningu – w domu albo na siłowni."
+          }
+        },
+        "step-4": {
+          "type": "step",
+          "settings": {
+            "title": "Wsparcie i check-iny",
+            "text": "Regularnie sprawdzamy postępy i na bieżąco poprawiamy plan. Masz pytanie albo gorszy tydzień? Nie zostajesz z tym sama."
+          }
+        }
+      },
+      "block_order": [
+        "step-1",
+        "step-2",
+        "step-3",
+        "step-4"
+      ],
+      "settings": {
+        "anchor": "jak-pracuje"
+      }
+    },
+    "transformations": {
+      "type": "ms-transformations",
+      "blocks": {
+        "pair-1": {
+          "type": "pair",
+          "settings": {
+            "name": "Moja podopieczna",
+            "text": "Bez magicznych sposobów i dróg na skróty – za to z konsekwencją, cierpliwością i codziennymi wyborami.",
+            "is_quote": false,
+            "placeholder": false
+          }
+        },
+        "pair-2": {
+          "type": "pair",
+          "settings": {
+            "name": "Ania",
+            "text": "Jem normalnie, trenuję w domu, a spodnie wreszcie leżą tak, jak chciałam.",
+            "is_quote": true,
+            "placeholder": true
+          }
+        },
+        "pair-3": {
+          "type": "pair",
+          "settings": {
+            "name": "Magda",
+            "text": "Najbardziej zmieniła się moja głowa. Przestałam się bać jedzenia.",
+            "is_quote": true,
+            "placeholder": true
+          }
+        }
+      },
+      "block_order": [
+        "pair-1",
+        "pair-2",
+        "pair-3"
+      ],
+      "settings": {
+        "anchor": "metamorfozy"
+      }
+    },
+    "testimonials": {
+      "type": "ms-testimonials",
+      "blocks": {
+        "testimonial-1": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Bałam się, że znowu dostanę kartkę z jadłospisem i zostanę z nią sama. Marta odpisywała na każde pytanie, a plan zmieniał się razem ze mną.",
+            "name": "Joanna",
+            "detail": "Londyn",
+            "placeholder": true
+          }
+        },
+        "testimonial-2": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Pracuję na zmiany i myślałam, że to wyklucza jakąkolwiek dietę. Okazało się, że wystarczył plan ułożony pod mój grafik.",
+            "name": "Ewelina",
+            "detail": "Birmingham",
+            "placeholder": true
+          }
+        },
+        "testimonial-3": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Pierwsze tygodnie bez głodówki i bez wyrzutów sumienia po kawałku ciasta. Trenuję w domu trzy razy w tygodniu i wreszcie to lubię.",
+            "name": "Karolina",
+            "detail": "Wrocław",
+            "placeholder": true
+          }
+        }
+      },
+      "block_order": [
+        "testimonial-1",
+        "testimonial-2",
+        "testimonial-3"
+      ],
+      "settings": {
+        "anchor": "opinie"
+      }
+    },
+    "products": {
+      "type": "ms-product-grid",
+      "settings": {
+        "title": "Produkty",
+        "anchor": "produkty",
+        "limit": 6,
+        "joined": false,
+        "intro": "Chcesz zacząć samodzielnie? Gotowe materiały do pobrania od razu po zakupie."
+      }
+    },
+    "freebies": {
+      "type": "ms-product-grid",
+      "settings": {
+        "title": "<em>Darmowe</em> materiały",
+        "anchor": "darmowe-materialy",
+        "limit": 6,
+        "joined": true,
+        "intro": "Na dobry początek. Wybierz materiał i podaj swoje dane w krótkim formularzu – plik pobierzesz od razu, a link dostaniesz też na maila."
+      }
+    },
+    "faq": {
+      "type": "ms-faq",
+      "blocks": {
+        "question-1": {
+          "type": "question",
+          "settings": {
+            "question": "Dla kogo jest współpraca?",
+            "answer": "<p>Dla kobiet, które chcą schudnąć i poprawić sylwetkę bez głodówek i bez efektu jojo – niezależnie od wieku i poziomu zaawansowania. Pracuję z Polkami w Wielkiej Brytanii, w Polsce i wszędzie tam, gdzie jest internet.</p>"
+          }
+        },
+        "question-2": {
+          "type": "question",
+          "settings": {
+            "question": "Kiedy zobaczę pierwsze efekty?",
+            "answer": "<p>To bardzo indywidualne. Wiele podopiecznych pierwsze zmiany – więcej energii, lepszy sen, luźniejsze ubrania – zauważa po kilku tygodniach. Nie obiecuję konkretnej liczby kilogramów, bo zdrowe tempo zależy od Twojego organizmu, stylu życia i zaangażowania. Stawiamy na efekt, który zostanie.</p>"
+          }
+        },
+        "question-3": {
+          "type": "question",
+          "settings": {
+            "question": "Czy potrzebuję sprzętu do ćwiczeń?",
+            "answer": "<p>Nie musisz go mieć. Plan dopasuję do tego, co masz pod ręką – może to być trening z masą własnego ciała, z gumami albo z hantlami. Jeśli zechcesz coś dokupić, podpowiem, co naprawdę się przyda.</p>"
+          }
+        },
+        "question-4": {
+          "type": "question",
+          "settings": {
+            "question": "Trening w domu czy na siłowni?",
+            "answer": "<p>Jak wolisz. Przygotuję plan na dom, na siłownię albo łączony – tak, żeby pasował do Twojego grafiku i sprawiał Ci przyjemność.</p>"
+          }
+        },
+        "question-5": {
+          "type": "question",
+          "settings": {
+            "question": "Mam alergie, nietolerancje albo nie jem mięsa. Czy to problem?",
+            "answer": "<p>Żaden. Plan żywieniowy układam z uwzględnieniem alergii, nietolerancji, diety wegetariańskiej lub wegańskiej i Twoich smaków. Jeśli masz chorobę wymagającą diety leczniczej, potrzebna będzie też opinia lekarza lub dietetyka klinicznego.</p>"
+          }
+        },
+        "question-6": {
+          "type": "question",
+          "settings": {
+            "question": "Jak wygląda kontakt z Tobą?",
+            "answer": "<p>Kontaktujemy się online, przez aplikację do prowadzenia podopiecznych. W stałych odstępach robimy check-iny, w których omawiamy postępy i poprawiamy plan, a na pytania między check-inami odpowiadam w dni robocze.</p>"
+          }
+        },
+        "question-7": {
+          "type": "question",
+          "settings": {
+            "question": "Czy mogę zwrócić produkt cyfrowy?",
+            "answer": "<p>Masz 14 dni na odstąpienie od umowy, ale tracisz to prawo, jeśli zgodzisz się na natychmiastowe pobranie pliku przed upływem tego terminu. Jeśli plik jest uszkodzony albo niezgodny z opisem, napisz do mnie – wymienię go lub zwrócę pieniądze.</p><p><a href=\"/policies/terms-of-service\">Przeczytaj Regulamin</a></p>"
+          }
+        },
+        "question-8": {
+          "type": "question",
+          "settings": {
+            "question": "Czy mogę zacząć, jeśli mam problemy zdrowotne albo jestem w ciąży?",
+            "answer": "<p>Przed rozpoczęciem nowej diety lub treningu skonsultuj się z lekarzem – szczególnie jeśli jesteś w ciąży, karmisz piersią, przyjmujesz leki lub chorujesz przewlekle. W aplikacji zapytam o Twoje zdrowie, żeby dobrać bezpieczny plan.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "question-1",
+        "question-2",
+        "question-3",
+        "question-4",
+        "question-5",
+        "question-6",
+        "question-7",
+        "question-8"
+      ],
+      "settings": {
+        "anchor": "faq"
+      }
+    },
+    "contact": {
+      "type": "ms-contact",
+      "settings": {
+        "anchor": "kontakt"
+      }
+    },
+    "newsletter": {
+      "type": "ms-newsletter",
+      "settings": {
+        "anchor": "newsletter"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "stats",
+    "problem",
+    "about",
+    "steps",
+    "transformations",
+    "testimonials",
+    "products",
+    "freebies",
+    "faq",
+    "contact",
+    "newsletter"
+  ]
+}

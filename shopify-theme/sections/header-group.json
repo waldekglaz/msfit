@@ -1,0 +1,23 @@
+{
+  "type": "header",
+  "name": "Nagłówek",
+  "sections": {
+    "header": {
+      "type": "header",
+      "blocks": {
+        "link-about": { "type": "link", "settings": { "label": "O mnie", "link": "/#o-mnie" } },
+        "link-how": { "type": "link", "settings": { "label": "Jak pracuję", "link": "/#jak-pracuje" } },
+        "link-transformations": { "type": "link", "settings": { "label": "Metamorfozy", "link": "/#metamorfozy" } },
+        "link-products": { "type": "link", "settings": { "label": "Produkty", "link": "/#produkty" } },
+        "link-faq": { "type": "link", "settings": { "label": "FAQ", "link": "/#faq" } }
+      },
+      "block_order": ["link-about", "link-how", "link-transformations", "link-products", "link-faq"],
+      "settings": {
+        "logo_text": "MS Fit",
+        "cta_label": "Aplikuj na współpracę",
+        "cta_link": "https://martaciupak.onlinecoaching.io/pre-application"
+      }
+    }
+  },
+  "order": ["header"]
+}

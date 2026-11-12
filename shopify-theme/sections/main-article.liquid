@@ -1,0 +1,17 @@
+<section class="ms-section">
+  <article class="ms-wrap ms-page">
+    <p class="ms-muted">{{ article.published_at | time_tag: format: 'date' }}</p>
+    <h1 class="ms-display ms-page-title">{{ article.title | escape }}</h1>
+    {%- if article.image -%}
+      <div class="ms-prose">{{ article.image | image_url: width: 1400 | image_tag: loading: 'eager', sizes: '(min-width: 768px) 48rem, 100vw', widths: '600, 900, 1200, 1400' }}</div>
+    {%- endif -%}
+    <div class="ms-prose">{{ article.content }}</div>
+  </article>
+</section>
+
+{% schema %}
+{
+  "name": "Wpis na blogu",
+  "tag": "div"
+}
+{% endschema %}

@@ -1,0 +1,65 @@
+{%- comment -%}
+  Product card for the products and free-materials grids.
+  "Buy" goes straight to Shopify's checkout (a cart link with this one
+  product), as these are single digital files. Free products (price 0) show
+  "Za darmo" and "Pobierz za darmo": the checkout then only asks for contact
+  details, and the file is delivered by the digital downloads app.
+  Params: product (blank = placeholder card for the theme editor)
+{%- endcomment -%}
+{%- liquid
+  if product
+    assign variant = product.selected_or_first_available_variant
+    assign is_free = false
+    if product.price == 0
+      assign is_free = true
+    endif
+  endif
+-%}
+<article class="ms-card">
+  <div class="ms-card__media">
+    {%- if product.featured_image -%}
+      {{
+        product.featured_image
+        | image_url: width: 900
+        | image_tag:
+          loading: 'lazy',
+          sizes: '(min-width: 1024px) 26rem, (min-width: 768px) 45vw, 92vw',
+          widths: '450, 700, 900'
+      }}
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag }}
+    {%- endif -%}
+    {%- if is_free -%}
+      <p class="ms-card__tag ms-card__tag--accent">
+        {{- 'products.free' | t -}}
+        {%- if product.type != blank %} · {{ product.type | escape }}{% endif -%}
+      </p>
+    {%- elsif product.type != blank -%}
+      <p class="ms-card__tag">{{ product.type | escape }}</p>
+    {%- endif -%}
+  </div>
+
+  <div class="ms-card__body">
+    {%- if product -%}
+      <h3 class="ms-display ms-card__title"><a href="{{ product.url }}">{{ product.title | escape }}</a></h3>
+      <p class="ms-card__text">{{ product.description | strip_html | truncatewords: 28 }}</p>
+      {%- unless is_free -%}
+        <p class="ms-card__price">
+          <span class="ms-visually-hidden">{{ 'accessibility.price' | t }}: </span>
+          {{- product.price | money -}}
+        </p>
+      {%- endunless -%}
+      {%- if variant.available -%}
+        <a class="ms-button ms-button--block{% unless is_free %} ms-button--outline{% endunless %}" href="{{ routes.cart_url }}/{{ variant.id }}:1">
+          {%- if is_free %}{{ 'products.get_free' | t }}{% else %}{{ 'products.buy' | t }}{% endif -%}
+          <span class="ms-visually-hidden">: {{ product.title | escape }}</span>
+        </a>
+      {%- else -%}
+        <button class="ms-button ms-button--outline ms-button--block" type="button" disabled>{{ 'products.sold_out' | t }}</button>
+      {%- endif -%}
+    {%- else -%}
+      <h3 class="ms-display ms-card__title">{{ 'products.placeholder_title' | t }}</h3>
+      <p class="ms-card__text">{{ 'products.placeholder_text' | t }}</p>
+    {%- endif -%}
+  </div>
+</article>

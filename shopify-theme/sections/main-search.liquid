@@ -1,0 +1,30 @@
+<section class="ms-section">
+  <div class="ms-wrap ms-page">
+    <h1 class="ms-display ms-page-title">{{ 'search.title' | t }}</h1>
+    <form class="ms-search" action="{{ routes.search_url }}" method="get" role="search">
+      <label class="ms-visually-hidden" for="SearchTerms">{{ 'search.label' | t }}</label>
+      <input class="ms-field" id="SearchTerms" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'search.label' | t }}">
+      <button class="ms-button" type="submit">{{ 'search.submit' | t }}</button>
+    </form>
+
+    {%- if search.performed -%}
+      <h2 class="ms-display ms-h3 ms-space-lg">{{ 'search.results' | t: terms: search.terms }}</h2>
+      {%- if search.results_count > 0 -%}
+        <ul class="ms-results">
+          {%- for item in search.results -%}
+            <li><a href="{{ item.url }}">{{ item.title | escape }}</a></li>
+          {%- endfor -%}
+        </ul>
+      {%- else -%}
+        <p class="ms-lead ms-intro">{{ 'search.none' | t }}</p>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Wyszukiwanie",
+  "tag": "div"
+}
+{% endschema %}

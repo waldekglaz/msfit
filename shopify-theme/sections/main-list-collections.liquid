@@ -1,0 +1,17 @@
+<section class="ms-section">
+  <div class="ms-wrap">
+    <h1 class="ms-display ms-page-title">{{ page_title | escape }}</h1>
+    <ul class="ms-results">
+      {%- for collection in collections -%}
+        <li><a href="{{ collection.url }}">{{ collection.title | escape }}</a> <span class="ms-muted">({{ collection.products_count }})</span></li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Lista kolekcji",
+  "tag": "div"
+}
+{% endschema %}

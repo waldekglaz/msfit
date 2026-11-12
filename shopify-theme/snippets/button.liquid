@@ -1,0 +1,31 @@
+{%- comment -%}
+  A link styled as a button. Full addresses (https://…) open in a new tab and
+  say so to screen readers.
+  Params: label, link, outline (true/false), small (true/false), block (true/false), class
+{%- endcomment -%}
+{%- liquid
+  assign external = false
+  if link contains '://'
+    assign external = true
+  endif
+  assign classes = 'ms-button'
+  if outline
+    assign classes = classes | append: ' ms-button--outline'
+  endif
+  if small
+    assign classes = classes | append: ' ms-button--sm'
+  endif
+  if block
+    assign classes = classes | append: ' ms-button--block'
+  endif
+  if class
+    assign classes = classes | append: ' ' | append: class
+  endif
+-%}
+<a class="{{ classes }}" href="{{ link | escape }}"{% if external %} target="_blank" rel="noopener"{% endif %}>
+  <span>{{ label | escape }}</span>
+  {%- if external -%}
+    {% render 'icon', name: 'external', class: 'ms-icon' %}
+    <span class="ms-visually-hidden"> {{ 'general.new_tab' | t }}</span>
+  {%- endif -%}
+</a>

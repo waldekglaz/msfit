@@ -1,0 +1,117 @@
+<section id="{{ section.settings.anchor | default: section.id }}" class="ms-section" aria-labelledby="Title-{{ section.id }}">
+  <div class="ms-wrap">
+    <div class="ms-heading">
+      <h2 id="Title-{{ section.id }}" class="ms-display ms-h2">{{ section.settings.title }}</h2>
+      <div class="ms-heading__intro">
+        <p class="ms-lead">{{ section.settings.intro | escape }}</p>
+        {%- if section.settings.note != blank -%}
+          <p class="ms-note">{% render 'icon', name: 'info' %}{{ section.settings.note | escape }}</p>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <ul class="ms-grid{% if section.blocks.size >= 3 %} ms-grid--3{% endif %}">
+      {%- for block in section.blocks -%}
+        <li {{ block.shopify_attributes }}>
+          <article class="ms-card ms-pair">
+            <div class="ms-pair__photos">
+              {%- assign photos = 'before,after' | split: ',' -%}
+              {%- for side in photos -%}
+                {%- liquid
+                  if side == 'before'
+                    assign photo = block.settings.image_before
+                    assign caption = 'transformations.before' | t
+                  else
+                    assign photo = block.settings.image_after
+                    assign caption = 'transformations.after' | t
+                  endif
+                  assign photo_alt = block.settings.name | append: ' – ' | append: caption
+                  if photo.alt != blank
+                    assign photo_alt = photo.alt
+                  endif
+                -%}
+                <figure>
+                  {%- if photo != blank -%}
+                    {{ photo | image_url: width: 700 | image_tag: loading: 'lazy', sizes: '(min-width: 1024px) 18rem, (min-width: 768px) 24vw, 46vw', widths: '350, 500, 700', alt: photo_alt }}
+                  {%- else -%}
+                    {{ 'image' | placeholder_svg_tag }}
+                  {%- endif -%}
+                  <figcaption>{{ caption }}</figcaption>
+                </figure>
+              {%- endfor -%}
+            </div>
+            <div class="ms-card__body">
+              <h3 class="ms-display">{{ block.settings.name | escape }}</h3>
+              {%- if block.settings.is_quote -%}
+                <blockquote class="ms-card__text"><p>„{{ block.settings.text | escape }}”</p></blockquote>
+              {%- else -%}
+                <p class="ms-card__text">{{ block.settings.text | escape }}</p>
+              {%- endif -%}
+              {%- if block.settings.placeholder -%}{% render 'placeholder-badge' %}{%- endif -%}
+            </div>
+          </article>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Metamorfozy",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Tytuł",
+      "default": "<em>Metamorfozy</em>",
+      "info": "Słowa zaznaczone kursywą są w kolorze akcentu."
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Wstęp",
+      "default": "Prawdziwe kobiety, prawdziwe życie i zmiany, które zostały na dłużej."
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "Informacja o zgodzie",
+      "default": "Zdjęcia publikowane za zgodą podopiecznych. Rezultaty są indywidualne."
+    },
+    { "type": "text", "id": "anchor", "label": "Kotwica (id sekcji)", "default": "metamorfozy" }
+  ],
+  "blocks": [
+    {
+      "type": "pair",
+      "name": "Metamorfoza",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Publikuj tylko za pisemną zgodą podopiecznej. Zdjęcia pionowe 3:4, min. 900 × 1200 px."
+        },
+        { "type": "image_picker", "id": "image_before", "label": "Zdjęcie „przed”" },
+        { "type": "image_picker", "id": "image_after", "label": "Zdjęcie „po”" },
+        { "type": "text", "id": "name", "label": "Imię", "default": "Imię" },
+        { "type": "textarea", "id": "text", "label": "Tekst", "default": "Kilka słów o tej zmianie." },
+        { "type": "checkbox", "id": "is_quote", "label": "To cytat podopiecznej (w cudzysłowie)", "default": false },
+        {
+          "type": "checkbox",
+          "id": "placeholder",
+          "label": "Przykładowa treść (pokaż znaczek)",
+          "default": false,
+          "info": "Zostaw zaznaczone, dopóki treść nie jest prawdziwa."
+        }
+      ]
+    }
+  ],
+  "max_blocks": 9,
+  "presets": [
+    {
+      "name": "Metamorfozy",
+      "blocks": [{ "type": "pair" }, { "type": "pair" }, { "type": "pair" }]
+    }
+  ]
+}
+{% endschema %}
