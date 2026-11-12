@@ -552,6 +552,140 @@ export const contactForm = {
 };
 
 // ---------------------------------------------------------------------
+// Darmowe materiały (free downloads) and the newsletter, on /demo-3 for now
+//
+// A freebie is given only after the form (first name + email): the page then
+// shows a download button and the same link is emailed (via Resend). Links
+// are signed and expire, and the files live in private/freebies/ (not
+// public/), so they can't be fetched any other way.
+//
+// To add a freebie: put the file in private/freebies/, a 4:3 cover in
+// public/images/darmowe/, and an entry in `items` below.
+// ---------------------------------------------------------------------
+
+export type Freebie = {
+  /** Used in links and, once a mailing system is connected, to tag signups. */
+  id: string;
+  title: string;
+  description: string;
+  format: string;
+  image: ImageAsset;
+  /** File name in private/freebies/. */
+  file: string;
+  placeholder?: boolean;
+};
+
+/** Labels and messages of the signup forms (freebies and newsletter). */
+const signupFields = { name: "Imię", email: "E-mail", honeypot: contactForm.honeypot };
+const signupErrors = {
+  name: "Wpisz swoje imię.",
+  nameInvalid: "Wpisz samo imię, bez cyfr i znaków specjalnych.",
+  email: "Wpisz poprawny adres e-mail, np. ania@przyklad.pl.",
+  failed: "Coś poszło nie tak. Spróbuj ponownie za chwilę.",
+};
+const privacyLink = { linkLabel: "Polityce prywatności", href: "/polityka-prywatnosci" };
+
+// TODO [PLACEHOLDER] real freebies: file, cover, title and description.
+export const freebies = {
+  /** Section anchor; the page the section is on is in `page`. */
+  id: "darmowe-materialy",
+  page: "/demo-3",
+  title: "Darmowe materiały",
+  intro:
+    "Na dobry początek. Podaj imię i e-mail, a materiał od razu pobierzesz tutaj i dostaniesz go też na maila.",
+  badge: "Za darmo",
+  /** How long download links work, in days. */
+  linkDays: 30,
+  items: [
+    {
+      id: "lista-zakupow",
+      title: "Lista zakupów na zdrowy tydzień",
+      description:
+        "Gotowa lista produktów na proste, sycące posiłki przez cały tydzień. Wydrukuj ją albo zapisz w telefonie.",
+      format: "PDF",
+      image: {
+        src: "/images/darmowe/lista-zakupow.jpg",
+        alt: "Okładka darmowej listy zakupów MS Fit",
+        width: 1200,
+        height: 900,
+      },
+      file: "lista-zakupow.pdf",
+      placeholder: true,
+    },
+    {
+      id: "trening-w-domu",
+      title: "Trening w domu na start",
+      description:
+        "Krótki plan na pierwsze tygodnie: ćwiczenia z masą własnego ciała, bez sprzętu i bez siłowni.",
+      format: "PDF",
+      image: {
+        src: "/images/darmowe/trening-w-domu.jpg",
+        alt: "Okładka darmowego planu treningu w domu MS Fit",
+        width: 1200,
+        height: 900,
+      },
+      file: "trening-w-domu.pdf",
+      placeholder: true,
+    },
+  ] satisfies Freebie[] as Freebie[],
+  form: {
+    fields: signupFields,
+    /** Unticked by default: the freebie never depends on it. */
+    newsletterOptIn: "Chcę też dostawać newsletter z przepisami i wskazówkami (nieobowiązkowe).",
+    submit: "Wyślij mi materiał",
+    sending: "Wysyłanie…",
+    note: { before: "Imię i e-mail wykorzystam, żeby wysłać Ci materiał. Szczegóły w ", ...privacyLink, after: "." },
+    success: {
+      title: "Gotowe!",
+      download: "Pobierz materiał",
+      emailSent: "Wysłałam go też na adres",
+      emailFailed: "Nie udało się wysłać maila, ale materiał możesz pobrać tutaj.",
+      subscribed: "Zapisałaś się też na newsletter.",
+    },
+    errors: signupErrors,
+  },
+  /** The email with the download link. {name}, {title} and {days} are filled in. */
+  email: {
+    subject: "Twój darmowy materiał: {title}",
+    greeting: "Cześć {name}!",
+    intro: "Dziękuję za zainteresowanie. Oto materiał, o który prosiłaś: „{title}”.",
+    button: "Pobierz materiał",
+    validity: "Link działa przez {days} dni. Później możesz odebrać materiał ponownie na stronie.",
+    signoff: "Ściskam",
+  },
+  /** Shown when an old or broken download link is opened. */
+  linkErrors: {
+    expired: "Ten link do pobrania wygasł.",
+    invalid: "Ten link do pobrania jest nieprawidłowy.",
+    back: "Odbierz materiał ponownie",
+  },
+};
+
+// TODO [PLACEHOLDER] confirm what the newsletter will contain and how often.
+export const newsletter = {
+  title: "Zapisz się na newsletter",
+  intro:
+    "Przepisy, wskazówki treningowe i nowe darmowe materiały prosto na Twoją skrzynkę. Bez spamu – wypiszesz się jednym kliknięciem.",
+  form: {
+    fields: signupFields,
+    submit: "Zapisuję się",
+    sending: "Zapisywanie…",
+    note: {
+      before: "Zapisując się, zgadzasz się na otrzymywanie newslettera. Szczegóły w ",
+      ...privacyLink,
+      after: ".",
+    },
+    success: {
+      title: "Dziękuję za zapis!",
+      // TODO if the mailing system asks people to confirm (double opt-in),
+      // say so here: "Sprawdź skrzynkę i potwierdź zapis."
+      text: "Pierwsza wiadomość wkrótce trafi na Twoją skrzynkę.",
+    },
+    errors: signupErrors,
+  },
+};
+
+// ---------------------------------------------------------------------
 // Footer
 // ---------------------------------------------------------------------
 
@@ -592,7 +726,7 @@ export const legal = {
   /** Shows a "template – needs review" box on both legal pages.
    *  Set to false once Marta (ideally with a lawyer) has approved the text. */
   isTemplate: true,
-  lastUpdated: "30 października 2026",
+  lastUpdated: "11 listopada 2026",
   /** Data processors listed in the privacy policy. */
   processors: [
     {
@@ -602,8 +736,14 @@ export const legal = {
     },
     {
       name: "Resend",
-      purpose: "wysyłka wiadomości z formularza kontaktowego na skrzynkę e-mail",
+      purpose: "wysyłka wiadomości z formularza kontaktowego na skrzynkę e-mail oraz wysyłka darmowych materiałów",
       location: "USA",
+    },
+    {
+      // TODO [PLACEHOLDER] once chosen, e.g. MailerLite, Kit or Brevo, with its location.
+      name: "System do wysyłki newslettera – do wyboru",
+      purpose: "przechowywanie listy osób zapisanych na newsletter i wysyłka newslettera",
+      location: "[PLACEHOLDER] do potwierdzenia",
     },
     {
       name: "onlinecoaching.io",
@@ -618,6 +758,8 @@ export const legal = {
   ] satisfies Processor[],
   /** How long contact-form messages are kept. */
   contactRetention: "do 12 miesięcy od ostatniej wiadomości", // TODO [PLACEHOLDER] confirm
+  /** How long the email service keeps a copy of a sent freebie email. */
+  freebieEmailRetention: "[PLACEHOLDER] okres przechowywania logów w Resend", // TODO confirm in Resend
 };
 
 // ---------------------------------------------------------------------
@@ -955,8 +1097,10 @@ export const demo3 = {
     offer: ["1:1"],
     transformations: ["Metamorfozy"],
     testimonials: ["podopiecznych"],
+    freebies: ["Darmowe"],
     faq: ["pytania"],
     final: ["na zmianę?"],
+    newsletter: ["newsletter"],
   },
   /** Icons for the three problem points, in order. */
   problemIcons: ["loop", "clock", "energy"] satisfies DemoIcon[],

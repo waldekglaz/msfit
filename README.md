@@ -8,6 +8,7 @@ translation of the main page (see "English version").
 - No UI libraries. Icons are small inline SVGs (`components/Icons.tsx`)
 - **All content lives in one file: [`lib/data.ts`](lib/data.ts)**
 - Contact form → `app/api/contact/route.ts` → email via [Resend](https://resend.com)
+- `/demo-3`: free materials behind a name + email form, and a newsletter signup (see "Free materials and newsletter")
 - No cookies and no tracking scripts. Only cookieless `@vercel/analytics`
 - Legal pages: `/polityka-prywatnosci` and `/regulamin` (templates, see below)
 
@@ -48,12 +49,15 @@ app/                         route groups in (brackets) don't change URLs
     en/page.tsx              /en
   globals.css                base styles, focus rings, legal text styles, animations
   api/contact/route.ts       contact form endpoint (Resend)
+  api/freebie/              freebie form (link + email) and the signed download
+  api/newsletter/route.ts   newsletter form
   sitemap.ts, robots.ts      SEO files, built from site.url
   icon.svg                   favicon
 components/                  one file per section + small shared pieces
   HomePage.tsx               the main page in either language (section order lives here)
   SiteShell.tsx              Archivo font, header, footer
   PayhipDialog.tsx           popup for Payhip products (demos, see "Connecting checkout links")
+  SignupForm.tsx             name + email form for freebies and the newsletter
   demo/                      sections of the /demo page
   demo2/                     poster sections (shared by /demo-2 and /demo-3)
   demo3/                     sections only /demo-3 needs
@@ -65,6 +69,10 @@ lib/
   fonts-demo3.ts             fonts for /demo-3 (Anton, Poppins)
   metadata.ts                per-page SEO/OpenGraph helper
   format.ts                  price formatting (PLN / GBP)
+  mailing.ts                 newsletter list: where the mailing system gets connected
+  freebie-links.ts           signed, expiring download links
+  form-checks.ts             name/email checks and bot filter for the signup forms
+private/freebies/            the free materials (not public: served only via signed links)
 public/images/               photos (some interim, see "Swapping images")
 tailwind.config.ts           colour palettes and type scale
 ```
@@ -339,6 +347,33 @@ Before using this for real products:
 
 ---
 
+## Free materials and newsletter (`/demo-3`)
+
+From the client's brief: a "Darmowe materiały" section under the products, where each freebie has
+its own form (first name + email), and a newsletter signup connected to a mailing system.
+
+- **Freebies** are in `freebies` in `lib/data.ts`. To add one: put the file in
+  `private/freebies/`, a 4:3 cover in `public/images/darmowe/`, and an entry in `items`. With three
+  or more they sit three to a row. The two there now are labelled placeholders.
+- **What happens on submit:** the page shows a "Pobierz materiał" button, and the same link is
+  emailed through Resend (same keys as the contact form). If the email can't be sent, the page
+  says so and the download still works. Links are signed with `FREEBIE_LINK_SECRET` and expire
+  after `linkDays` (30), and the files aren't in `public/`, so there is no way round the form.
+- **Newsletter:** its own form above the footer, plus an optional, unticked box on each freebie
+  form. Nobody is added to the list without asking for it; the freebie never depends on it.
+- **The mailing system isn't chosen yet.** Every signup goes through `subscribe()` in
+  `lib/mailing.ts`, which for now only writes it to the server log, so signups are **not kept**
+  (Vercel keeps runtime logs briefly). Connecting MailerLite, Kit, Brevo or another is that one
+  function plus an API key; the steps are at the top of the file. Turn on double opt-in there and
+  update the newsletter's success message in `lib/data.ts`.
+- **Abuse:** a hidden honeypot field and a minimum fill time filter bots, as on the contact form,
+  and first names may only contain letters, so the form can't be used to send links from Marta's
+  address. There is no rate limit; if the form is ever abused, add one (e.g. Vercel's firewall).
+- The privacy policy has sections for both, and lists the mailing system as a processor to fill
+  in once chosen.
+
+---
+
 ## Contact form (Resend)
 
 The form posts to `/api/contact`, which validates on the server (required fields, email format,
@@ -364,6 +399,7 @@ and the form shows an error in production, so enquiries are never dropped silent
    | `RESEND_API_KEY`       | yes      | `re_...` from Resend                                           |
    | `CONTACT_TO_EMAIL`     | yes      | Inbox that receives messages                                   |
    | `CONTACT_FROM_EMAIL`   | recommended | Sender on the verified domain, e.g. `MS Fit Coaching <formularz@msfitcoaching.pl>`. Without it Resend's test sender is used, which only delivers to the Resend account owner. |
+   | `FREEBIE_LINK_SECRET`  | for the freebies | A long random string that signs download links, e.g. from `openssl rand -base64 32`. Without it the freebie forms show an error in production. Changing it invalidates links already sent. |
    | `NEXT_PUBLIC_SITE_URL` | once the domain is live | `https://www.final-domain.pl`, used for canonical, sitemap, OG and JSON-LD URLs. If empty, Vercel's production domain is used. |
 
 3. **Analytics → Enable** Web Analytics (cookieless, no consent banner needed).
@@ -454,6 +490,13 @@ mobile menu, form validation messages announced to screen readers, API validatio
 - [ ] Product names, descriptions and formats
 - [ ] Prices in PLN and/or GBP
 - [ ] Payment provider choice (Payhip / Lemon Squeezy / Stripe) and a checkout link per product
+- [ ] Free materials: the files (PDF), a 4:3 cover each, title and description
+
+**Newsletter**
+
+- [ ] Mailing system choice (MailerLite / Kit / Brevo…) and an API key, then connect `lib/mailing.ts`
+- [ ] What the newsletter contains and how often (its intro text says recipes, training tips and new freebies)
+- [ ] How long Resend keeps sent emails (`legal.freebieEmailRetention`, shown in the privacy policy)
 
 **Legal and business**
 

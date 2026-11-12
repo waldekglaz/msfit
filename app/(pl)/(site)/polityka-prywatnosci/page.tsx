@@ -61,6 +61,23 @@ export default function PrivacyPolicyPage() {
         lit. c).
       </p>
 
+      <h3>Darmowe materiały</h3>
+      <p>
+        Gdy prosisz o darmowy materiał, wykorzystuję Twoje imię i adres e-mail tylko po to, żeby
+        wysłać Ci link do jego pobrania (podjęcie działań na Twoje żądanie, art. 6 ust. 1 lit. b
+        UK GDPR). Jeśli nie zaznaczysz zapisu na newsletter, nie dodaję Cię do żadnej listy i nie
+        wysyłam Ci innych wiadomości.
+      </p>
+
+      <h3>Newsletter</h3>
+      <p>
+        Jeśli zapiszesz się na newsletter (osobnym formularzem albo zaznaczając pole przy darmowym
+        materiale), przetwarzam Twoje imię i adres e-mail, żeby wysyłać Ci wiadomości z przepisami,
+        wskazówkami i informacjami o moich materiałach. Podstawa prawna: Twoja zgoda (art. 6 ust. 1
+        lit. a UK GDPR). Wypiszesz się w każdej chwili linkiem w każdej wiadomości albo pisząc na
+        adres podany wyżej.
+      </p>
+
       <h3>Wiadomości przez Instagram i e-mail</h3>
       <p>
         Jeśli piszesz do mnie bezpośrednio, przetwarzam dane zawarte w korespondencji, żeby Ci
@@ -115,6 +132,11 @@ export default function PrivacyPolicyPage() {
       <h2>6. Jak długo przechowuję dane</h2>
       <ul>
         <li>Wiadomości z formularza kontaktowego: {legal.contactRetention}.</li>
+        <li>Newsletter: do czasu, aż się wypiszesz lub wycofasz zgodę.</li>
+        <li>
+          Darmowe materiały bez zapisu na newsletter: nie przechowuję Twoich danych na stronie; kopia
+          wysłanej wiadomości zostaje w systemie wysyłki e-maili: {legal.freebieEmailRetention}.
+        </li>
         <li>
           Dane z aplikacji i współpracy 1:1: przez czas współpracy, a następnie do 12 miesięcy na
           wypadek pytań lub powrotu do współpracy, chyba że wcześniej poprosisz o usunięcie.
@@ -157,7 +179,7 @@ export default function PrivacyPolicyPage() {
       <h2>9. Czy muszę podać dane</h2>
       <p>
         Podanie danych jest dobrowolne, ale bez nich nie mogę odpowiedzieć na wiadomość, przyjąć
-        aplikacji ani zrealizować zamówienia. Nie podejmuję wobec Ciebie decyzji opartych wyłącznie
+        aplikacji, zrealizować zamówienia, wysłać darmowego materiału ani newslettera. Nie podejmuję wobec Ciebie decyzji opartych wyłącznie
         na zautomatyzowanym przetwarzaniu.
       </p>
 

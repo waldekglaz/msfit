@@ -1,5 +1,7 @@
 import { D3About } from "@/components/demo3/D3About";
 import { D3Final } from "@/components/demo3/D3Final";
+import { D3Freebies } from "@/components/demo3/D3Freebies";
+import { D3Newsletter } from "@/components/demo3/D3Newsletter";
 import { D3Offer } from "@/components/demo3/D3Offer";
 import { D3Problem } from "@/components/demo3/D3Problem";
 import { D3Products } from "@/components/demo3/D3Products";
@@ -49,6 +51,7 @@ export default function PosterMainPage() {
         <D3Transformations />
         <D3Testimonials />
         <D3Products />
+        <D3Freebies />
         <PosterFaq
           title={faq.title}
           pinkWords={demo3.pink.faq}
@@ -58,6 +61,7 @@ export default function PosterMainPage() {
           background="ink"
         />
         <D3Final />
+        <D3Newsletter />
       </main>
       <PosterFooter cta={applyCta} backLinks={demo3.backLinks} />
       <StickyCta cta={applyCta} tone="poster" contactId={ids.contact} newTabLabel={ui.newTab} />

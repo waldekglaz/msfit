@@ -18,6 +18,13 @@ const nextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
   },
+  experimental: {
+    // The free materials aren't in public/: only the download route reads them,
+    // so they have to be bundled with it.
+    outputFileTracingIncludes: {
+      "/api/freebie/download": ["./private/freebies/**/*"],
+    },
+  },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
